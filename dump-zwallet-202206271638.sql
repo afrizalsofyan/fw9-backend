@@ -102,6 +102,7 @@ ALTER TABLE public.profile ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 -- TOC entry 214 (class 1259 OID 16508)
 -- Name: transaction; Type: TABLE; Schema: public; Owner: postgres
 --
+CREATE TYPE trans_type_enum AS ENUM('success', 'pending', 'failed');
 
 CREATE TABLE public.transaction (
     id integer NOT NULL,
@@ -109,7 +110,10 @@ CREATE TABLE public.transaction (
     date_transaction date NOT NULL,
     time_transaction timestamp without time zone NOT NULL,
     notes text,
-    balance numeric NOT NULL
+    balance numeric NOT NULL,
+    type_transaction trans_type_enum,
+    sender character varying,
+    reciever character varying,
 );
 
 
