@@ -1,0 +1,33 @@
+{
+    "id": "1",
+    "username": "robertchan_",
+    "email": "abc@mail.com",
+    "password": "1234",
+    "detail_user": {
+        "id": "1",
+        "first_name": "Robert",
+        "last_name": "Chandler",
+        "phone_number": "+62 8443554385",
+        "bio": "Im an software Engineer",
+        "photo_path": "https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=100&q=60%20100w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=200&q=60%20200w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=300&q=60%20300w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60%20400w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60%20500w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60%20600w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=700&q=60%20700w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60%20800w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60%20900w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1000&q=60%201000w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1100&q=60%201100w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1200&q=60%201200w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1296&q=60%201296w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1400&q=60%201400w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1600&q=60%201600w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1800&q=60%201800w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=2000&q=60%202000w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=2200&q=60%202200w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=2400&q=60%202400w,%20https://images.unsplash.com/photo-1559629819-638a8f0a4303?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=2592&q=60%202592w",
+        "pin_number": "123"
+    },
+    "transaction": [
+        {
+            "id": "1",
+            "amount": "100,000,000",
+            "date_transaction": "2 Dec 2022",
+            "time_transaction": "01:40",
+            "notes": "this for you",
+            "balance": "140,000,000"
+        },
+        {
+            "id": "2",
+            "amount": "100,000,000",
+            "date_transaction": "12 Dec 2022",
+            "time_transaction": "01:40",
+            "notes": "this for you again",
+            "balance": "40,000,000"
+        }
+    ]
+}

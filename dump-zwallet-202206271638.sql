@@ -105,6 +105,7 @@ ALTER TABLE public.profile ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 
 CREATE TABLE public.transaction (
     id integer NOT NULL,
+    amount numeric NOT Null,
     date_transaction date NOT NULL,
     time_transaction timestamp without time zone NOT NULL,
     notes text,
