@@ -114,6 +114,8 @@ CREATE TABLE public.transaction (
     type_transaction trans_type_enum,
     sender character varying,
     reciever character varying,
+    photo_sender character varying,
+    photo_reciever character varying
 );
 
 
