@@ -12,7 +12,7 @@ app.get('/', (req, res)=>{
     })
 })
 
-// app.use('/', require('./'))
+app.use('/', require('./src/routes'))
 
 app.use('*', (req, res)=>{
     return res.status(404).json({
