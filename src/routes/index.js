@@ -1,6 +1,6 @@
-const router = require('express').Router()
+const router = require('express').Router();
 
-router.use('/users', require('./user'))
-router.use('/transaction', require('./transaction'))
+router.use('/users', require('./user'));
+router.use('/transaction', require('./transaction'));
 
-module.exports = router
+module.exports = router;
