@@ -1,15 +1,20 @@
-const response = (res, msg, stat=200, data=[]) => {
+const response = (res, msg, result, stat=200) => {
 
-    let success = true
+  let success = true;
 
-    if(stat >= 400){
-        success = false
-    }
-    return res.status(stat).json({
-        success,
-        message: msg,
-        data: data
-    })
-}
+  if(stat >= 400){
+    success = false;
+  }
 
-module.exports = response
+  const data = {
+    success,
+    message: msg,
+  };
+
+  if(result){
+    data.result = result;
+  }
+  return res.status(stat).json(data);
+};
+
+module.exports = response;
