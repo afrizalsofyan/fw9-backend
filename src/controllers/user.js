@@ -12,7 +12,7 @@ exports.getAllUser = (req, res) => {
 exports.getUser = (req, res) => {
   const {id} = req.params;
   userModel.getUser(id, (result)=>{
-    return response(res, 'This your selected data.', result);
+    return response(res, 'This your selected data.', result[0]);
   });
   
 };
