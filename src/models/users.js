@@ -10,7 +10,7 @@ exports.getAllUsers = (cb) => {
 };
 
 exports.getUser = (id, cb) => {
-  const q = 'SELECT * FROM users WHERE id=$1 AND is_active=true';
+  const q = 'SELECT username, email, password, pin_number FROM users WHERE id=$1 AND is_active=true';
   const val = [id];
   db.query(q, val, (err, res)=>{
     cb(res.rows);
