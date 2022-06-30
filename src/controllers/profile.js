@@ -23,7 +23,13 @@ exports.getProfile = (req, res) => {
 exports.updateProfile = (req, res) => {
   const {id} = req.params;
   profileModel.updateProfile(id, req.body, (result)=>{
-    console.log(result);
     return response(res, 'Update user data is success!!', result[0]);
+  });
+};
+
+exports.hardDeleteProfile = (req, res)=>{
+  const {id} = req.params;
+  profileModel.hardDelateProfile(id,(result)=>{
+    return response(res, 'Success delete data', result[0]);
   });
 };

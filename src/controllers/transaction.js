@@ -1,4 +1,3 @@
-const dataDummy = require('../../dummy_data');
 const response = require('../helpers/standartResponse');
 
 exports.getTransaction = (req, res) => {
