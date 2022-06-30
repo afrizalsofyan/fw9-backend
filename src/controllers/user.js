@@ -1,7 +1,7 @@
 const response = require('../helpers/standartResponse');
 const userModel = require('../models/users');
 
-// const db = require('../helpers/db');
+const { validationResult } = require('express-validator');
 
 exports.getAllUser = (req, res) => {
   userModel.getAllUsers((result)=>{
@@ -18,6 +18,10 @@ exports.getUser = (req, res) => {
 };
 
 exports.createUser = (req, res) => {
+  const validation = validationResult(req);
+  if(!validation.isEmpty()){
+    return response(res, 'Error input', validation.array(), 400);
+  }
   userModel.createUser(req.body, (result)=>{
     return response(res, 'Create user successully!!', result[0]);
   });
