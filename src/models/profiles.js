@@ -38,3 +38,11 @@ exports.updateProfile = (id, data, cb) => {
     cb(result.rows);
   });
 };
+
+exports.hardDelateProfile = (id, cb) => {
+  const q = 'DELETE FROM profile WHERE id=$1 RETURNING *';
+  const val = [id];
+  db.query(q, val, (err, result)=>{
+    cb(result.rows);
+  });
+};
