@@ -21,7 +21,11 @@ exports.createUser = (data, cb) => {
   const q = 'INSERT INTO users (username, email, password, pin_number) VALUES ($1, $2, $3, $4) RETURNING *';
   const val = [data.username, data.email, data.password, data.pin];
   db.query(q, val, (err, result)=>{
-    cb(result.rows);
+    if(result){
+      cb(err, result.rows);
+    } else {
+      cb(err);
+    }
   });
 };
 
