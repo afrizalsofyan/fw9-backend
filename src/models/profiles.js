@@ -1,14 +1,15 @@
 const db = require('../helpers/db');
 
 exports.addProfile = (data, cb) => {
-  const q = 'INSERT INTO profile(first_name, last_name, phone_number, personal_inf, photo_url, balance) VALUES($1, $2, $3, $4, $5, $6) RETURNING *';
-  const val = [data.firstName, data.lastName, data.phoneNumber, data.personalInformation, data.photoUrl, data.balance];
+  const q = 'INSERT INTO profile(first_name, last_name, phone_number, personal_inf, photo_url, balance, user_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *';
+  const val = [data.firstName, data.lastName, data.phoneNumber, data.personalInformation, data.photoUrl, data.balance, data.user_id];
 
   db.query(q, val, (err, result)=>{
     if(err){
-      throw err;
+      cb(err);
+    } else {
+      cb(err, result.rows);
     }
-    cb(result.rows);
   });
 };
 

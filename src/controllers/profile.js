@@ -1,11 +1,30 @@
+const errorResponse = require('../helpers/errorResponse');
 const response = require('../helpers/standartResponse');
 const profileModel = require('../models/profiles');
 
-exports.createNewProfile = (req, res) => {
-  profileModel.addProfile(req.body, (result)=>{
-    return response(res, 'Profile has been created!!', result[0]);
-  });
-};
+const { body, validationResult } = require('express-validator');
+
+const validator = [
+  body('photoUrl').isURL().withMessage('Please input url address'),
+];
+
+exports.createNewProfile = 
+[
+  ...validator,
+  (req, res) => {
+    const validation = validationResult(req);
+    if(!validation.isEmpty()){
+      return response(res, 'Error input', validation.array(), 400);
+    }
+    profileModel.addProfile(req.body, (err, result)=>{
+      if(err){
+        return errorResponse(err, res);
+      } else {
+        return response(res, 'Profile has been created!!', result[0]);
+      }
+    });
+  },
+];
 
 exports.getAllProfile = (req, res) => {
   profileModel.getAllProfiles((result)=>{

@@ -12,7 +12,8 @@ const createValidator = [
     .customSanitizer(async (val)=>{
       const hash = await bcrypt.hash(val, 10);
       return hash;
-    })
+    }),
+  body('pin').isNumeric().withMessage('Invalid format, please input with number')
 ];
 
 users.get('/', userController.getAllUser);
