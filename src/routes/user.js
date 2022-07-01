@@ -12,7 +12,7 @@ const createValidator = [
 users.get('/', userController.getAllUser);
 users.get('/:id', userController.getUser);
 users.post('/', ...createValidator ,userController.createUser);
-users.patch('/:id', userController.updateUser);
+users.patch('/:id', ...createValidator ,userController.updateUser);
 users.delete('/:id', userController.hardDeleteUser);
 users.delete('/delete/:id', userController.softDeleteUser);
 

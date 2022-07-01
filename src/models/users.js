@@ -33,7 +33,11 @@ exports.updateUsers = (id, data, cb) => {
   const q = 'UPDATE users SET username=$1, email=$2, password=$3, pin_number=$4 WHERE id=$5 RETURNING *';
   const val = [data.username, data.email, data.password, data.pin, id];
   db.query(q, val, (err, result)=>{
-    cb(result.rows);
+    if(result){
+      cb(err, result.rows);
+    } else {
+      cb(err);
+    }
   });
 };
 

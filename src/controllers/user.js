@@ -42,8 +42,23 @@ exports.createUser = (req, res) => {
 
 exports.updateUser = (req, res) => {
   const {id} = req.params;
-  userModel.updateUsers(id, req.body, (result)=>{
-    return response(res, 'Update user data is success!!', result[0]);
+  const validation = validationResult(req);
+  if(!validation.isEmpty()){
+    return response(res, 'Error input', validation.array(), 400);
+  }
+  userModel.updateUsers(id, req.body, (err, result)=>{
+    if(err) {
+      if(err.code === '23505' && err.detail.includes('username')){
+        const errData = errorResponse('Username Invalid', 'Username');
+        return response(res, 'Error username', errData, 400);
+      } else if(err.code === '23505' && err.detail.includes('email')){
+        const errData = errorResponse('Email invalid', 'Email');
+        return response(res, 'Error email', errData, 400);
+      }
+      return response(res, 'Error', null, 400);
+    } else {
+      return response(res, 'Update user data is success!!', result[0]);
+    }
   });
 };
 
