@@ -15,6 +15,9 @@ const errorResponse = (err, res) => {
   } else if(err.code === '23505' && err.detail.includes('email')){
     const errData = errorHandling('Email already axists!!', 'Email');
     return response(res, 'Error email', errData, 400);
+  } else if (err.code === '23505' && err.detail.includes('user_id')){
+    const errData = errorHandling('User id already axists!!', 'User id');
+    return response(res, 'Error user id', errData, 400);
   }
   return response(res, 'Error', null, 400);
 };
