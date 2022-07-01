@@ -6,7 +6,7 @@ const {body} = require('express-validator');
 
 const createValidator = [
   body('username').isLength({min: 5}).withMessage('username very short, please add 5 character or more!!'),
-  body('email').isEmail().withMessage('invalid email format')
+  body('email').isEmail().normalizeEmail().withMessage('invalid email format')
 ];
 
 users.get('/', userController.getAllUser);
