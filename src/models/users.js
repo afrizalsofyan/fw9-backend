@@ -1,7 +1,7 @@
 const db = require('../helpers/db');
 
 exports.getAllUsers = (cb) => {
-  db.query('SELECT * FROM users WHERE is_active=true ORDER BY id ASC', (err, res) => {
+  db.query('SELECT * FROM users WHERE is_active=true ORDER BY id ASC OFFSET 5 LIMIT 100000', (err, res) => {
     if(err) {
       throw err;
     }
@@ -68,7 +68,8 @@ exports.findUser = (cb) => {
 exports.sortUser = (data, cb) => {
   let arg = data.by.toLowerCase();
   let sort = data.sort.toLowerCase();
-  const q = `SELECT ${arg} FROM users ORDER BY username ${sort}`;
+  // const q = `SELECT ${arg} FROM users ORDER BY username ${sort}`;
+  const q = `SELECT ${arg} FROM users ORDER BY username ${sort} OFFSET 5 LIMIT 100000`;
   const queryDB = db.query(q, (err, result)=>{
     if(err){
       cb(err);
@@ -78,10 +79,8 @@ exports.sortUser = (data, cb) => {
   });
   if(data.by === 'username'){
     queryDB;
-    // console.log('sort by username');
   } else if(data.by === 'email') {
     queryDB;
-    // console.log('sort by emil');
   } else {
     console.log('invalid sort');
   }
