@@ -57,3 +57,32 @@ exports.softDeleteUser = (id, cb) => {
     cb(result.rows);
   });
 };
+
+exports.findUser = (cb) => {
+  const q = 'SELECT username FROM users';
+  db.query(q, (err, result)=>{
+    cb(result.rows);
+  });
+};
+
+exports.sortUser = (data, cb) => {
+  let arg = data.by.toLowerCase();
+  let sort = data.sort.toLowerCase();
+  const q = `SELECT ${arg} FROM users ORDER BY username ${sort}`;
+  const queryDB = db.query(q, (err, result)=>{
+    if(err){
+      cb(err);
+    } else {
+      cb(err, result.rows);
+    }
+  });
+  if(data.by === 'username'){
+    queryDB;
+    // console.log('sort by username');
+  } else if(data.by === 'email') {
+    queryDB;
+    // console.log('sort by emil');
+  } else {
+    console.log('invalid sort');
+  }
+};

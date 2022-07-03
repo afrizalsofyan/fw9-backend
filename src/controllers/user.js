@@ -62,3 +62,22 @@ exports.softDeleteUser = (req, res) => {
     return response(res, 'Delete data is success!!', result[0]);
   });
 };
+
+exports.findUser = (req, res) => {
+  userModel.findUser((result)=>{
+    const q = req.body.query;
+    const data = result.map(element => element.username);
+    const searchResult = data.filter(words => words.includes(q.toLowerCase()));
+    return response(res, 'Data username', searchResult);
+  });
+};
+
+exports.sortUser = (req, res) => {
+  userModel.sortUser(req.body, (err, result)=>{
+    if(err){
+      return errorResponse(err, res);
+    } else {
+      return response(res, 'This sort data', result);
+    }
+  });
+};
