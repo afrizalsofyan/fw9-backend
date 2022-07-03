@@ -58,3 +58,15 @@ exports.deleteTransaction = (id, cb) => {
     cb(result.rows);
   });
 };
+
+exports.findTransaction = (cb) => {
+  // const q = 'SELECT * FROM transaction WHERE EXTRACT(DATE(time_transaction))';
+  const q = 'SELECT * FROM transaction';
+  db.query(q, (err, result)=>{
+    if(err) {
+      cb(err);
+    } else {
+      cb(err, result.rows);
+    }
+  });
+};
