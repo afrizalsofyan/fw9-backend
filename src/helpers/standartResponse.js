@@ -1,4 +1,4 @@
-const response = (res, msg, result, stat=200) => {
+const response = (res, msg, result, info, stat=200) => {
 
   let success = true;
 
@@ -10,7 +10,9 @@ const response = (res, msg, result, stat=200) => {
     success,
     message: msg,
   };
-
+  if(info) {
+    data.info = info;
+  }
   if(result){
     data.result = result;
   }
