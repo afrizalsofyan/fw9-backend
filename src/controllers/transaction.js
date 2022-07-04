@@ -9,6 +9,8 @@ const validator = [
   body('amount').isInt().withMessage('Please input number format'),
 ];
 
+const {LIMIT_DATA} = process.env;
+
 exports.createTransaction = [
   ...validator,
   (req, res) => {
@@ -27,8 +29,32 @@ exports.createTransaction = [
 ];
 
 exports.getAllTransaction = (req, res) => {
-  transactionModel.getAllTransaction((result) => {
-    return response(res, 'This is all transaction', result);
+  const {search='', sortBy, sortType, limit=parseInt(LIMIT_DATA), page=1} = req.query;
+  const type = parseInt(sortType);
+  const offset = (page-1) * limit;
+  let typeSort='';
+  if(type == 0){
+    typeSort = 'ASC';
+  } else {
+    typeSort = 'DESC';
+  }
+  if(!type){
+    typeSort = 'ASC';
+  }
+  const pageInfo = {};
+
+  transactionModel.getAllTransaction(search, sortBy, typeSort,limit, offset, (err, result) => {
+    if(result.length < 1){
+      return res.redirect('/404');
+    }
+    transactionModel.countTransactionData(search, (err, infoData)=>{
+      pageInfo.totalDatas = infoData;
+      pageInfo.pages = Math.ceil(infoData/limit);
+      pageInfo.currentPage = parseInt(page);
+      pageInfo.prevPage = pageInfo.currentPage > 1 ? pageInfo.currentPage - 1 : null;
+      pageInfo.nextPage = pageInfo.currentPage < pageInfo.pages ? pageInfo.currentPage + 1 : null;
+      return response(res, 'This is all transaction', result, pageInfo);
+    });
   });
 };
 
@@ -66,23 +92,23 @@ exports.hardDeletedTransaction = (req, res) => {
   });
 };
 
-exports.findTransaction = (req, res) => {
-  const { param } = req.params;
-  // const parseParam = parseInt(param);
-  transactionModel.findTransaction((err, result) => {
-    if (err) {
-      return errorResponse(err, res);
-    } else {
-      const notesFind = result
-        .map((el) => el.notes.toLowerCase())
-        .filter((word) => word.includes(param.toLowerCase()));
-      return response(res, 'This find transaction', notesFind);
-    }
-  });
-};
+// exports.findTransaction = (req, res) => {
+//   const { param } = req.params;
+//   // const parseParam = parseInt(param);
+//   transactionModel.findTransaction((err, result) => {
+//     if (err) {
+//       return errorResponse(err, res);
+//     } else {
+//       const notesFind = result
+//         .map((el) => el.notes.toLowerCase())
+//         .filter((word) => word.includes(param.toLowerCase()));
+//       return response(res, 'This find transaction', notesFind);
+//     }
+//   });
+// };
 
-// const timeNow = new Date(Date.now());
-// const getMonth = timeNow.getMonth() + 1;
-// const dat = result.map(el=>el.time_transaction);
-// const time = new Date(dat).toString();
-// console.log(time);
+// // const timeNow = new Date(Date.now());
+// // const getMonth = timeNow.getMonth() + 1;
+// // const dat = result.map(el=>el.time_transaction);
+// // const time = new Date(dat).toString();
+// // console.log(time);

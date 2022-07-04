@@ -12,11 +12,27 @@ exports.createNewTransaction = (data, cb) => {
   });
 };
 
-exports.getAllTransaction = (cb) => {
-  // const q = 'SELECT * FROM transaction ORDER BY id ASC';
-  const q = 'SELECT id, amount, notes, sender_id, recipient_id, time_transaction::timestamp AT time zone \'GMT+0\' AS time_transaction FROM transaction';
+exports.getAllTransaction = (keyword, sortBy, sortType, limit, offset, cb) => {
+  let by = '';
+  if(!sortBy){
+    by='id';
+  } else {
+    by = sortBy;
+  }
+  const q = `SELECT * FROM transaction WHERE 
+  ${sortBy == 'amount' ? 'amount::text' : 'notes'} 
+  LIKE '%${keyword}%' ORDER BY ${by == 'amount' ? by : 'id'} ${sortType} LIMIT $1 OFFSET $2 `;
+  const val = [limit, offset];
+  // const q = 'SELECT id, amount, notes, sender_id, recipient_id, time_transaction::timestamp AT time zone \'GMT+0\' AS time_transaction FROM transaction';
+  db.query(q, val, (err, result)=>{
+    cb(err, result.rows);
+  });
+};
+
+exports.countTransactionData = (keyword, cb) => {
+  const q = 'SELECT * FROM transaction';
   db.query(q, (err, result)=>{
-    cb(result.rows);
+    cb(err, result.rowCount);
   });
 };
 
@@ -59,14 +75,14 @@ exports.deleteTransaction = (id, cb) => {
   });
 };
 
-exports.findTransaction = (cb) => {
-  // const q = 'SELECT * FROM transaction WHERE EXTRACT(DATE(time_transaction))';
-  const q = 'SELECT * FROM transaction';
-  db.query(q, (err, result)=>{
-    if(err) {
-      cb(err);
-    } else {
-      cb(err, result.rows);
-    }
-  });
-};
+// exports.findTransaction = (cb) => {
+//   // const q = 'SELECT * FROM transaction WHERE EXTRACT(DATE(time_transaction))';
+//   const q = 'SELECT * FROM transaction';
+//   db.query(q, (err, result)=>{
+//     if(err) {
+//       cb(err);
+//     } else {
+//       cb(err, result.rows);
+//     }
+//   });
+// };
