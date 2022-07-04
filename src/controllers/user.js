@@ -5,9 +5,24 @@ const { validationResult } = require('express-validator');
 
 const errorResponse = require('../helpers/errorResponse');
 
+const {LIMIT_DATA} = process.env;
+
 exports.getAllUser = (req, res) => {
-  userModel.getAllUsers((result)=>{
-    return response(res, 'This is user dataaaa.', result,200);
+  const {search='', limit=parseInt(LIMIT_DATA), page=1} = req.query;
+  const offset = (page-1) * limit;
+  userModel.getAllUsers(search, limit, offset, (result)=>{
+    if(result.length < 1){
+      return res.redirect('/404');
+    }
+    const pageInfo = {};
+
+    userModel.countAllUsers(search, (err, infoData)=>{
+      pageInfo.infoData = infoData.totalData;
+      console.log(infoData);
+      return response(res, 'List all users', result, infoData);
+    });
+
+    // return response(res, 'This is user dataaaa.', result,200);
   });
 };
 
@@ -63,14 +78,19 @@ exports.softDeleteUser = (req, res) => {
   });
 };
 
-exports.findUser = (req, res) => {
-  userModel.findUser((result)=>{
-    const q = req.body.query;
-    const data = result.map(element => element.username);
-    const searchResult = data.filter(words => words.includes(q.toLowerCase()));
-    return response(res, 'Data username', searchResult);
-  });
-};
+// exports.findUser = (req, res) => {
+//   const {search=''} = req.query;
+//   console.log(search);
+//   userModel.getAllUsers((result)=>{
+//     return response(res, 'This is user dataaaa.', result,200);
+//   });
+//   // userModel.findUser((result)=>{
+//   // const q = req.body.query;
+//   // const data = result.map(element => element.username);
+//   // const searchResult = data.filter(words => words.includes(q.toLowerCase()));
+//   // return response(res, 'Data username', searchResult);
+//   // });
+// };
 
 exports.sortUser = (req, res) => {
   userModel.sortUser(req.body, (err, result)=>{

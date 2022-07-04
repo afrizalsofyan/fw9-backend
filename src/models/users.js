@@ -1,11 +1,19 @@
 const db = require('../helpers/db');
 
-exports.getAllUsers = (cb) => {
-  db.query('SELECT * FROM users WHERE is_active=true ORDER BY id ASC OFFSET 5 LIMIT 100000', (err, res) => {
+exports.getAllUsers = (keyword, limit, offset= 0, cb) => {
+  db.query(`SELECT * FROM users WHERE is_active=true AND username LIKE '%${keyword}%' 
+  OR email LIKE '%${keyword}%' ORDER BY id ASC LIMIT $1 OFFSET $2`, [limit, offset], (err, res) => {
     if(err) {
       throw err;
     }
     cb(res.rows);
+  });
+};
+
+
+exports.countAllUsers = (keyword, cb) =>{
+  db.query(`SELECT COUNT(*) AS totalData FROM users WHERE email LIKE '%${keyword}%'`, (err, result)=>{
+    cb(err, result.rows[0]);
   });
 };
 
@@ -58,12 +66,12 @@ exports.softDeleteUser = (id, cb) => {
   });
 };
 
-exports.findUser = (cb) => {
-  const q = 'SELECT username FROM users';
-  db.query(q, (err, result)=>{
-    cb(result.rows);
-  });
-};
+// exports.findUser = (cb) => {
+//   const q = 'SELECT * FROM users';
+//   db.query(q, (err, result)=>{
+//     cb(result.rows);
+//   });
+// };
 
 exports.sortUser = (data, cb) => {
   let arg = data.by.toLowerCase();

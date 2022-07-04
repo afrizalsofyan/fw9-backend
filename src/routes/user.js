@@ -17,9 +17,9 @@ const createValidator = [
 ];
 
 users.get('/', userController.getAllUser);
+// users.get('/find', userController.findUser);
 users.get('/:id', userController.getUser);
-users.get('/sort/user', userController.sortUser);
-users.get('/find/user', userController.findUser);
+// users.get('/sort/user', userController.sortUser);
 users.post('/', ...createValidator ,userController.createUser);
 users.patch('/:id', ...createValidator ,userController.updateUser);
 users.delete('/:id', userController.hardDeleteUser);
