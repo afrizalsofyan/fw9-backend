@@ -12,8 +12,8 @@ exports.getAllUsers = (keyword, limit, offset= 0, cb) => {
 
 
 exports.countAllUsers = (keyword, cb) =>{
-  db.query(`SELECT COUNT(*) AS totalData FROM users WHERE email LIKE '%${keyword}%'`, (err, result)=>{
-    cb(err, result.rows[0]);
+  db.query(`SELECT * FROM users WHERE email LIKE '%${keyword}%'`, (err, result)=>{
+    cb(err, result.rowCount);
   });
 };
 

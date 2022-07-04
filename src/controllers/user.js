@@ -16,13 +16,14 @@ exports.getAllUser = (req, res) => {
     }
     const pageInfo = {};
 
-    userModel.countAllUsers(search, (err, infoData)=>{
-      pageInfo.infoData = infoData.totalData;
-      console.log(infoData);
-      return response(res, 'List all users', result, infoData);
+    userModel.countAllUsers(search, (err, data)=>{
+      pageInfo.infoData = data;
+      pageInfo.totalPage = Math.ceil(data/limit);
+      pageInfo.currentPage = parseInt(page);
+      pageInfo.prevPage = pageInfo.currentPage > 1 ? pageInfo.currentPage - 1 : null;
+      pageInfo.nextPage = pageInfo.currentPage < pageInfo.totalPage ? pageInfo.currentPage + 1 : null;
+      return response(res, 'List all users', result, pageInfo);
     });
-
-    // return response(res, 'This is user dataaaa.', result,200);
   });
 };
 
