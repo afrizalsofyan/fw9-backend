@@ -8,9 +8,9 @@ const errorResponse = require('../helpers/errorResponse');
 const {LIMIT_DATA} = process.env;
 
 exports.getAllUser = (req, res) => {
-  const {search='', limit=parseInt(LIMIT_DATA), page=1} = req.query;
+  const {search='', limit=parseInt(LIMIT_DATA), page=1, sortBy='id', sortType=0} = req.query;
   const offset = (page-1) * limit;
-  userModel.getAllUsers(search, limit, offset, (result)=>{
+  userModel.getAllUsers(search, sortBy, parseInt(sortType), limit, offset, (result)=>{
     if(result.length < 1){
       return res.redirect('/404');
     }
@@ -79,21 +79,8 @@ exports.softDeleteUser = (req, res) => {
   });
 };
 
-// exports.findUser = (req, res) => {
-//   const {search=''} = req.query;
-//   console.log(search);
-//   userModel.getAllUsers((result)=>{
-//     return response(res, 'This is user dataaaa.', result,200);
-//   });
-//   // userModel.findUser((result)=>{
-//   // const q = req.body.query;
-//   // const data = result.map(element => element.username);
-//   // const searchResult = data.filter(words => words.includes(q.toLowerCase()));
-//   // return response(res, 'Data username', searchResult);
-//   // });
-// };
-
 exports.sortUser = (req, res) => {
+  // const {q='', sortBy, sortType} = req.query;
   userModel.sortUser(req.body, (err, result)=>{
     if(err){
       return errorResponse(err, res);
