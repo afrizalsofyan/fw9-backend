@@ -12,16 +12,16 @@ exports.createNewTransaction = (data, cb) => {
   });
 };
 
-exports.getAllTransaction = (keyword, sortBy, sortType, limit, offset, cb) => {
-  let by = '';
-  if(!sortBy){
-    by='id';
-  } else {
-    by = sortBy;
-  }
-  const q = `SELECT * FROM transaction WHERE 
-  ${sortBy == 'amount' ? 'amount::text' : 'notes'} 
-  LIKE '%${keyword}%' ORDER BY ${by == 'amount' ? by : 'id'} ${sortType} LIMIT $1 OFFSET $2 `;
+exports.getAllTransaction = (keyword, searchBy, sortBy, sortType, limit, offset, cb) => {
+  // let by = '';
+  // if(!sortBy){
+  //   by='id';
+  // } else {
+  //   by = sortBy;
+  // }
+  const q = `SELECT * FROM transaction ${!keyword || !searchBy ? 'ORDER BY id ASC' : `WHERE 
+  ${searchBy == 'amount' ? 'amount::text' : searchBy} 
+  LIKE '%${keyword}%' ORDER BY ${sortBy == 'amount' ? sortBy : 'id'} ${sortType}`} LIMIT $1 OFFSET $2 `;
   const val = [limit, offset];
   // const q = 'SELECT id, amount, notes, sender_id, recipient_id, time_transaction::timestamp AT time zone \'GMT+0\' AS time_transaction FROM transaction';
   db.query(q, val, (err, result)=>{

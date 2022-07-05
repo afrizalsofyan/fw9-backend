@@ -29,7 +29,7 @@ exports.createTransaction = [
 ];
 
 exports.getAllTransaction = (req, res) => {
-  const {search='', sortBy, sortType, limit=parseInt(LIMIT_DATA), page=1} = req.query;
+  const {search='',searchBy, sortBy, sortType, limit=parseInt(LIMIT_DATA), page=1} = req.query;
   const type = parseInt(sortType);
   const offset = (page-1) * limit;
   let typeSort='';
@@ -43,7 +43,7 @@ exports.getAllTransaction = (req, res) => {
   }
   const pageInfo = {};
 
-  transactionModel.getAllTransaction(search, sortBy, typeSort,limit, offset, (err, result) => {
+  transactionModel.getAllTransaction(search, searchBy, sortBy, typeSort,limit, offset, (err, result) => {
     if(result.length < 1){
       return res.redirect('/404');
     }
