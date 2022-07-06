@@ -3,7 +3,11 @@ const express = require('express');
 
 const app = express();
 
+global.__basepath = __dirname;
+
 app.use(express.urlencoded({extended: false}));
+app.use('/assets' ,express.static('assets'));
+// app.use(express.static('assets'));
 
 //connect server
 app.get('/', (req, res)=>{
