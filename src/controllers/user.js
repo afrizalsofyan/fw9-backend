@@ -29,7 +29,10 @@ exports.getAllUser = (req, res) => {
 
 exports.getUser = (req, res) => {
   const {id} = req.params;
-  userModel.getUser(id, (result)=>{
+  userModel.getUser(id, (err, result)=>{
+    if(result.length<1) {
+      return res.redirect('/404');
+    }
     return response(res, 'This your selected data.', result[0]);
   });
   
@@ -41,7 +44,6 @@ exports.createUser = (req, res) => {
     return response(res, 'Error input', validation.array(), 400);
   }
   userModel.createUser(req.body, (err, result)=>{
-    console.log(err);
     if(err) {
       return errorResponse(err, res);
     } else {
@@ -76,16 +78,5 @@ exports.softDeleteUser = (req, res) => {
   const {id} = req.params;
   userModel.softDeleteUser(id, (result)=>{
     return response(res, 'Delete data is success!!', result[0]);
-  });
-};
-
-exports.sortUser = (req, res) => {
-  // const {q='', sortBy, sortType} = req.query;
-  userModel.sortUser(req.body, (err, result)=>{
-    if(err){
-      return errorResponse(err, res);
-    } else {
-      return response(res, 'This sort data', result);
-    }
   });
 };

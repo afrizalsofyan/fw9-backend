@@ -34,9 +34,10 @@ exports.updateProfile = (id, data, cb) => {
 
   db.query(q, val, (err, result) => {
     if(err){
-      throw err;
+      cb(err);
+    } else {
+      cb(err, result.rows);  
     }
-    cb(result.rows);
   });
 };
 

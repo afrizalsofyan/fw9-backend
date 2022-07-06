@@ -7,7 +7,7 @@ exports.getAllUsers = (keyword, sortBy, sortType, limit, offset= 0, cb) => {
   } else {
     type = 'DESC';
   }
-  db.query(`SELECT * FROM users WHERE is_deleted=true AND (username LIKE '%${keyword}%' 
+  db.query(`SELECT * FROM users WHERE is_deleted=false AND (username LIKE '%${keyword}%' 
   OR email LIKE '%${keyword}%') ORDER BY ${sortBy} ${type} LIMIT $1 OFFSET $2`, [limit, offset], (err, res) => {
     if(err) {
       throw err;
@@ -16,7 +16,6 @@ exports.getAllUsers = (keyword, sortBy, sortType, limit, offset= 0, cb) => {
   });
 };
 
-
 exports.countAllUsers = (keyword, cb) =>{
   db.query(`SELECT * FROM users WHERE email LIKE '%${keyword}%'`, (err, result)=>{
     cb(err, result.rowCount);
@@ -24,10 +23,14 @@ exports.countAllUsers = (keyword, cb) =>{
 };
 
 exports.getUser = (id, cb) => {
-  const q = 'SELECT username, email, password, pin_number FROM users WHERE id=$1 AND is_active=true';
+  const q = 'SELECT username, email, password, pin_number FROM users WHERE id=$1 AND is_deleted=false';
   const val = [id];
   db.query(q, val, (err, res)=>{
-    cb(res.rows);
+    if(err) {
+      cb(err);
+    } else {
+      cb(err, res.rows);
+    }
   });
 };
 
@@ -64,38 +67,10 @@ exports.hardDeleteUser = (id, cb) => {
 };
 
 exports.softDeleteUser = (id, cb) => {
-  const softDelete = false;
-  const q = 'UPDATE users SET is_active=$1 WHERE id=$2 RETURNING *';
+  const softDelete = true;
+  const q = 'UPDATE users SET is_deleted=$1 WHERE id=$2 RETURNING *';
   const val = [softDelete, id];
   db.query(q, val, (err, result)=>{
     cb(result.rows);
   });
-};
-
-// exports.findUser = (cb) => {
-//   const q = 'SELECT * FROM users';
-//   db.query(q, (err, result)=>{
-//     cb(result.rows);
-//   });
-// };
-
-exports.sortUser = (data, cb) => {
-  let arg = data.by.toLowerCase();
-  let sort = data.sort.toLowerCase();
-  // const q = `SELECT ${arg} FROM users ORDER BY username ${sort}`;
-  const q = `SELECT ${arg} FROM users ORDER BY username ${sort} OFFSET 5 LIMIT 100000`;
-  const queryDB = db.query(q, (err, result)=>{
-    if(err){
-      cb(err);
-    } else {
-      cb(err, result.rows);
-    }
-  });
-  if(data.by === 'username'){
-    queryDB;
-  } else if(data.by === 'email') {
-    queryDB;
-  } else {
-    console.log('invalid sort');
-  }
 };

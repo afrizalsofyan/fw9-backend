@@ -19,6 +19,7 @@ exports.createTransaction = [
       return response(res, 'Error input', validation.array(), 400);
     }
     transactionModel.createNewTransaction(req.body, (err, result) => {
+      console.log(err);
       if (err) {
         return errorResponse(err, res);
       } else {
@@ -61,6 +62,9 @@ exports.getAllTransaction = (req, res) => {
 exports.getTransaction = (req, res) => {
   const { id } = req.params;
   transactionModel.getTransaction(id, (result) => {
+    if(result < 1) {
+      return res.redirect('/404');
+    }
     return response(res, 'This is data selected', result[0]);
   });
 };
@@ -91,21 +95,6 @@ exports.hardDeletedTransaction = (req, res) => {
     return response(res, 'Data deleted', result[0]);
   });
 };
-
-// exports.findTransaction = (req, res) => {
-//   const { param } = req.params;
-//   // const parseParam = parseInt(param);
-//   transactionModel.findTransaction((err, result) => {
-//     if (err) {
-//       return errorResponse(err, res);
-//     } else {
-//       const notesFind = result
-//         .map((el) => el.notes.toLowerCase())
-//         .filter((word) => word.includes(param.toLowerCase()));
-//       return response(res, 'This find transaction', notesFind);
-//     }
-//   });
-// };
 
 // // const timeNow = new Date(Date.now());
 // // const getMonth = timeNow.getMonth() + 1;

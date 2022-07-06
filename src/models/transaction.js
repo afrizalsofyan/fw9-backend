@@ -13,13 +13,7 @@ exports.createNewTransaction = (data, cb) => {
 };
 
 exports.getAllTransaction = (keyword, searchBy, sortBy, sortType, limit, offset, cb) => {
-  // let by = '';
-  // if(!sortBy){
-  //   by='id';
-  // } else {
-  //   by = sortBy;
-  // }
-  const q = `SELECT * FROM transaction ${!keyword || !searchBy ? 'ORDER BY id ASC' : `WHERE 
+  const q = `SELECT * FROM transaction ${!searchBy ? 'ORDER BY id ASC' : `WHERE 
   ${searchBy == 'amount' ? 'amount::text' : searchBy} 
   LIKE '%${keyword}%' ORDER BY ${sortBy == 'amount' ? sortBy : 'id'} ${sortType}`} LIMIT $1 OFFSET $2 `;
   const val = [limit, offset];
@@ -74,15 +68,3 @@ exports.deleteTransaction = (id, cb) => {
     cb(result.rows);
   });
 };
-
-// exports.findTransaction = (cb) => {
-//   // const q = 'SELECT * FROM transaction WHERE EXTRACT(DATE(time_transaction))';
-//   const q = 'SELECT * FROM transaction';
-//   db.query(q, (err, result)=>{
-//     if(err) {
-//       cb(err);
-//     } else {
-//       cb(err, result.rows);
-//     }
-//   });
-// };

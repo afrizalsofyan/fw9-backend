@@ -6,6 +6,7 @@ const { body, validationResult } = require('express-validator');
 
 const validator = [
   body('photoUrl').isURL().withMessage('Please input url address'),
+  body('balance').isInt().withMessage('balance must be Number')
 ];
 
 exports.createNewProfile = 
@@ -35,20 +36,33 @@ exports.getAllProfile = (req, res) => {
 exports.getProfile = (req, res) => {
   const {id} = req.params;
   profileModel.getProfile(id, (result)=>{
+    if(result.length < 1){
+      return res.redirect('/404');
+    }
     return response(res, 'This is selected data.', result[0]);
   });
 };
 
-exports.updateProfile = (req, res) => {
-  const {id} = req.params;
-  profileModel.updateProfile(id, req.body, (result)=>{
-    return response(res, 'Update user data is success!!', result[0]);
-  });
-};
+exports.updateProfile = 
+[
+  validator,
+  (req, res) => {
+    const {id} = req.params;
+    profileModel.updateProfile(id, req.body, (err, result)=>{
+      if(result.length < 1){
+        return res.redirect('/404');
+      }
+      return response(res, 'Update user data is success!!', result[0]);
+    });
+  }
+];
 
 exports.hardDeleteProfile = (req, res)=>{
   const {id} = req.params;
   profileModel.hardDelateProfile(id,(result)=>{
+    if(result.length < 1){
+      return res.redirect('/404');
+    }
     return response(res, 'Success delete data', result[0]);
   });
 };
