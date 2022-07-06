@@ -19,7 +19,6 @@ exports.createTransaction = [
       return response(res, 'Error input', validation.array(), 400);
     }
     transactionModel.createNewTransaction(req.body, (err, result) => {
-      console.log(err);
       if (err) {
         return errorResponse(err, res);
       } else {
@@ -81,9 +80,12 @@ exports.updateTransaction = [
     const { id } = req.params;
     transactionModel.updateTransaction(id, req.body, (err, result) => {
       if (err) {
-        return errorResponse(err, result);
+        return errorResponse(err, res);
       } else {
-        return response(res, 'Data updated', result[0]);
+        if(result < 1 ) {
+          return res.redirect('/404');
+        }
+        return response(res, 'Data updated', result[0], null);
       }
     });
   },
@@ -96,6 +98,20 @@ exports.hardDeletedTransaction = (req, res) => {
   });
 };
 
+exports.softDelate = (req, res) => {
+  const {id} = req.params;
+  transactionModel.softDelete(id, (err, result)=>{
+    
+    if(err) {
+      return errorResponse(err, res);
+    } else {
+      if(result.length < 1 ){
+        return res.redirect('/404');
+      } 
+      return response(res, 'Deleted data is success', result);
+    }
+  });
+};
 // // const timeNow = new Date(Date.now());
 // // const getMonth = timeNow.getMonth() + 1;
 // // const dat = result.map(el=>el.time_transaction);

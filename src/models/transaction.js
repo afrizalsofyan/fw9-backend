@@ -46,11 +46,8 @@ exports.getTransactionByTime = (cb) => {
 };
 
 exports.updateTransaction = (id, data, cb) => {
-  let type_id = 1;
-  let recipient_id = 1;
-  let sender_id = 2;
   const q = 'UPDATE transaction SET time_transaction=$1, notes=$2, amount=$3, type_id=$4, recipient_id=$5, sender_id=$6 WHERE id=$7 RETURNING *';
-  const val = [data.time, data.notes, data.amount, type_id, recipient_id, sender_id, id];
+  const val = [data.time, data.notes, data.amount, data.type_id, data.recipient_id, data.sender_id, id];
 
   db.query(q, val, (err, result)=>{
     if(err){
@@ -66,5 +63,17 @@ exports.deleteTransaction = (id, cb) => {
   const val = [id];
   db.query(q, val, (err, result)=>{
     cb(result.rows);
+  });
+};
+
+exports.softDelete = (id, cb) => {
+  const q = 'UPDATE transaction SET is_deleted=true WHERE id=$1 RETURNING *';
+  const val = [id];
+  db.query(q, val, (err, result) => {
+    if(err) {
+      cb(err);
+    } else {
+      cb(err, result.rows);
+    }
   });
 };
