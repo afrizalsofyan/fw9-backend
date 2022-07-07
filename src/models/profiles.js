@@ -2,17 +2,6 @@ const db = require('../helpers/db');
 const {PATH_ASSETS_IMAGE: imgUrl} = process.env;
 
 exports.addProfile = (data, picture, cb) => {
-  // const q = 'INSERT INTO profile(first_name, last_name, phone_number, personal_inf, photo_url, balance, user_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *';
-  // const val = [data.firstName, data.lastName, data.phoneNumber, data.personalInformation, picture, data.balance, data.user_id];
-
-  // db.query(q, val, (err, result)=>{
-  //   if(err){
-  //     cb(err);
-  //   } else {
-  //     cb(err, result.rows);
-  //   }
-  // });
-
   const fieldTable = {
     'first_name': data.firstName,
     'last_name': data.lastName,

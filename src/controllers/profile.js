@@ -24,7 +24,6 @@ exports.createNewProfile =
       pict = req.file.filename;
     }
     profileModel.addProfile(req.body, pict, (err, result)=>{
-      console.log(err);
       if(err){
         return errorResponse(err, res);
       } else {
