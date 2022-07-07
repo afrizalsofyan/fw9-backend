@@ -6,7 +6,7 @@ const app = express();
 global.__basepath = __dirname;
 
 app.use(express.urlencoded({extended: false}));
-app.use('/assets' ,express.static('assets'));
+app.use('/images' ,express.static('assets'));
 // app.use(express.static('assets'));
 
 //connect server
