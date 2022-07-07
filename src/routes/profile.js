@@ -1,6 +1,12 @@
 const profiles = require('express').Router();
 const profileController = require('../controllers/profile');
 
+
+
+const validator = [
+
+];
+
 profiles.post('/', ...profileController.createNewProfile);
 profiles.get('/', profileController.getAllProfile);
 profiles.get('/:id', profileController.getProfile);

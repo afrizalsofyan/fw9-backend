@@ -6,8 +6,8 @@ const { body, validationResult } = require('express-validator');
 const uploud = require('../helpers/uploud').single('picture');
 
 const validator = [
-  // body('photoUrl').isURL().withMessage('Please input url address'),
-  // body('balance').isInt().withMessage('balance must be Number')
+  body('photoUrl').isURL().withMessage('Please input url address'),
+  body('balance').isInt().withMessage('balance must be Number')
 ];
 
 exports.createNewProfile = 
@@ -85,14 +85,3 @@ exports.hardDeleteProfile = (req, res)=>{
     return response(res, 'Success delete data', result[0]);
   });
 };
-
-
-// exports.tesUploud = (req, res) => {
-//   uploud(req, res, (err)=>{
-//     if(err) {
-//       console.log(err);
-//       return response(res, `uploud failed ${err.message}`, null, null);
-//     }
-//     return response(res, 'uploud success', req.body);
-//   });
-// };
