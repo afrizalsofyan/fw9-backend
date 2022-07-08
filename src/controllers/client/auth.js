@@ -15,10 +15,18 @@ exports.register = (req, res) => {
 exports.createPin = (req, res) => {
   const {email} = req.body;
   userModel.getUserByEmail(email, (err, result)=>{
-    const id = result.rows[0].id;
-    userModel.updateUsers(id, {pin: req.body.pin}, (err, result)=>{
-      console.log(err);
-      return response(res, 'Success', result);  
-    });
+    if (result.rows.length < 1) {
+      return response(res, 'Email not found!!', null, null, 400);
+    } else {
+      const data = result.rows[0];
+      const id = data.id;
+      if(data.pin_number === null){
+        userModel.updateUsers(id, {pin: req.body.pin}, (err, result)=>{
+          return response(res, 'Success to create pin.', result);  
+        });
+      } else {
+        return response(res, 'Failed to create pin. Pin has been filled.', null, null, 400);
+      }
+    }
   });
 };
