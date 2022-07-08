@@ -47,8 +47,27 @@ exports.createUser = (data, cb) => {
 };
 
 exports.updateUsers = (id, data, cb) => {
-  const q = 'UPDATE users SET username=$1, email=$2, password=$3, pin_number=$4 WHERE id=$5 RETURNING *';
-  const val = [data.username, data.email, data.password, data.pin, id];
+  const fieldTable = {
+    'username': data.username,
+    'email': data.email,
+    'password': data.password,
+    'pin_number': data.pin
+  };
+  
+  let val = [id];
+  let arg = [];
+  const argObj = Object.keys(fieldTable);
+  const valObj = Object.values(fieldTable);
+  for(let x in valObj) {
+    if(valObj[x]!=null){
+      arg.push(argObj[x]);
+      val.push(valObj[x]);
+    }
+  }
+  const finalArg = arg.map((el, idx)=> `${el}=$${idx+2}`);
+
+  const q = `UPDATE users SET ${finalArg} WHERE id=$1 RETURNING *`;
+  // const val = [data.username, data.email, data.password, data.pin, id];
   db.query(q, val, (err, result)=>{
     if(result){
       cb(err, result.rows);
@@ -72,5 +91,49 @@ exports.softDeleteUser = (id, cb) => {
   const val = [softDelete, id];
   db.query(q, val, (err, result)=>{
     cb(result.rows);
+  });
+};
+
+exports.createUserWithProfile = (data, cb) => {
+  db.query('BEGIN', err => {
+    if(err){
+      cb(err);
+    }
+    const q = 'INSERT INTO users (username, email, password, pin_number) VALUES ($1, $2, $3, $4) RETURNING id';
+    const val = [data.username, data.email, data.password, data.pin];
+    db.query(q, val, (err, result)=>{
+      if(err){
+        cb(err);
+      } else {
+        if(result.length < 1){
+          cb(err);
+        } else {
+          const idUser = result.rows;
+          const insertIdUserToProfile = 'INSERT INTO profile(user_id) VALUES ($1)';
+          const insertIdUserToProfileValues = [idUser[0].id];
+          db.query(insertIdUserToProfile, insertIdUserToProfileValues, (err, result)=>{
+            if(err){
+              cb(err);
+            }
+            else {
+              db.query('COMMIT', err => {
+                if(err){
+                  cb(err);
+                } else {
+                  cb(err, result);
+                }
+              });
+            }
+          });
+        }
+      }
+    });
+  });
+};
+
+exports.getUserByEmail = (email, cb) => {
+  const q = `SELECT * FROM users WHERE email='${email}'`;
+  db.query(q, (err, result)=>{
+    cb(err, result);
   });
 };
