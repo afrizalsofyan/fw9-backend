@@ -1,6 +1,6 @@
 const profiles = require('express').Router();
-const profileController = require('../controllers/profile');
-const uploudImage = require('../middleware/uploudProfile');
+const profileController = require('../../controllers/profile');
+const uploudImage = require('../../middleware/uploudProfile');
 
 profiles.post('/',uploudImage, ...profileController.createNewProfile);
 profiles.get('/', profileController.getAllProfile);
