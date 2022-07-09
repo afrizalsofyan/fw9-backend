@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const authMiddleware = require('./src/middleware/auth');
 
 const app = express();
 
@@ -19,6 +18,8 @@ app.get('/', (req, res)=>{
 });
 
 // test login
+// const authMiddleware = require('./src/middleware/auth');
+
 // app.get('/authenticatedUser', authMiddleware, (req, res)=>{
 //   return res.json({
 //     success: true,
