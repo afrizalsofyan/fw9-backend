@@ -19,3 +19,30 @@ exports.validatorPin = [
     .isLength({min: 6, max: 6}).withMessage('Pin must 6 character!!')
     .isNumeric().withMessage('Pin must be number')
 ];
+
+exports.validatorLogin = [
+  body('email').isEmail().withMessage('Format email invalid!!'),
+  body('password').isLength({min: 5})
+    .withMessage('Password must be 5 characters')
+];
+
+exports.validatorEmail = [
+  body('email').isEmail().withMessage('Invalid email format')
+];
+
+exports.validatorForgetPassword = [
+  body('newPassword').isLength({min: 5})
+    .withMessage('Password must be 5 characters')
+    .custom((val, {req})=>{
+      if(val !== req.body.confirmPassword) {
+        throw new Error('Password confirmation is incorrect');
+      }
+      return true;
+    })
+    .customSanitizer( async (val) => {
+      const hash = await bcrypt.hash(val, 10);
+      return hash;
+    }),
+  body('confirmPassword').isLength({min: 5})
+    .withMessage('Password must be 5 characters')
+];

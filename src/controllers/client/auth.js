@@ -36,7 +36,6 @@ exports.createPin = (req, res) => {
 exports.login = (req, res) => {
   const {email, password} = req.body;
   userModel.getUserByEmail(email, (err, result) => {
-    
     if(result.rows.length < 1){
       return response(res, 'Email not found');
     }
@@ -46,9 +45,42 @@ exports.login = (req, res) => {
         if(checkPass){
           const token = jwt.sign({id: user.id, email: user.email, username: user.username}, process.env.APP_SECRET || 'secretKey');
           return response(res, 'Login success', {token});
+        } else {
+          return response(res, 'Login Failed', null, null, 401);
         }
       }).catch((e)=>{
-        return response(res, 'Email or Password not match', null, null, 404);
+        return response(res, `Error: ${e.message}`, null, null, 404);
       });
   });
+};
+
+exports.sendEmailForgetPassword = (req, res) => {
+  const {email} = req.body;
+  userModel.getUserByEmail(email, (err, result)=>{
+    if(result.rows.length<1){
+      return response(res, 'Email not found');
+    }
+    const data = result.rows[0];
+    const token = jwt.sign({id: data.id, email: data.email, username: data.username}, process.env.APP_SECRET || 'newSecretKey');
+    const queryParams = `${process.env.BASE_PATH}auth/forgetPassword?email=${data.email}&token=${token}`;
+    return response(res, 'This is link for change password.', queryParams, null);
+  });
+};
+
+exports.forgetPassword = (req, res) => {
+  const {email, token} = req.query;
+  if(email !== null && token !== null){
+    const {email, newPassword} = req.body;
+    userModel.getUserByEmail(email, (err, result)=>{
+      if(result.rows.length < 1){
+        return response(res, 'Email not found', null, null, 401);
+      }
+      const data = result.rows[0];
+      userModel.updateUsers(data.id, {password: newPassword}, ()=>{
+        return response(res, 'Password has been updated.');
+      });
+    });
+  } else {
+    return response(res, 'Error!!! email or token invalid', null, null, 403);
+  }
 };
