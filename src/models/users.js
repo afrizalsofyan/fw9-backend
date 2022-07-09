@@ -10,9 +10,9 @@ exports.getAllUsers = (keyword, sortBy, sortType, limit, offset= 0, cb) => {
   db.query(`SELECT * FROM users WHERE is_deleted=false AND (username LIKE '%${keyword}%' 
   OR email LIKE '%${keyword}%') ORDER BY ${sortBy} ${type} LIMIT $1 OFFSET $2`, [limit, offset], (err, res) => {
     if(err) {
-      throw err;
+      cb(err);
     }
-    cb(res.rows);
+    cb(err, res.rows);
   });
 };
 
