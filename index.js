@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const authMiddleware = require('./src/middleware/auth');
 
 const app = express();
 
@@ -16,6 +17,15 @@ app.get('/', (req, res)=>{
     message: 'Server is running'
   });
 });
+
+// test login
+// app.get('/authenticatedUser', authMiddleware, (req, res)=>{
+//   return res.json({
+//     success: true,
+//     message: 'Hello ' + req.authUser.username
+//   });
+// });
+
 const portServer = process.env.PORT;
 
 app.use('/admin', require('./src/routes/admin'));
