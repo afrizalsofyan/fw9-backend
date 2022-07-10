@@ -6,7 +6,6 @@ exports.addProfile = (data, picture, cb) => {
     'first_name': data.firstName,
     'last_name': data.lastName,
     'phone_number': data.phoneNumber,
-    'personal_inf': data.personalInformation,
     'balance': data.balance,
     'photo_url': picture==null? picture : `${imgUrl}/${picture}`,
     'user_id': data.user_id
@@ -54,7 +53,6 @@ exports.updateProfile = (id, data, picture, cb) => {
     'first_name': data.firstName,
     'last_name': data.lastName,
     'phone_number': data.phoneNumber,
-    'personal_inf': data.personalInformation,
     'balance': data.balance,
     'photo_url': picture == null ? picture : `${imgUrl}/${picture}`
   };
@@ -86,5 +84,13 @@ exports.hardDelateProfile = (id, cb) => {
   const val = [id];
   db.query(q, val, (err, result)=>{
     cb(result.rows);
+  });
+};
+
+exports.getProfileByUserId = (userId, cb) => {
+  const q = 'SELECT * FROM profile WHERE user_id=$1';
+  const val = [userId];
+  db.query(q, val, (err, result)=>{
+    cb(err, result.rows);
   });
 };
