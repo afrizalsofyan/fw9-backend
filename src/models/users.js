@@ -23,7 +23,7 @@ exports.countAllUsers = (keyword, cb) =>{
 };
 
 exports.getUser = (id, cb) => {
-  const q = 'SELECT username, email, password, pin_number FROM users WHERE id=$1 AND is_deleted=false';
+  const q = 'SELECT * FROM users WHERE id=$1 AND is_deleted=false';
   const val = [id];
   db.query(q, val, (err, res)=>{
     if(err) {
