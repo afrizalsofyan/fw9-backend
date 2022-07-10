@@ -64,11 +64,14 @@ exports.updateProfile = (id, data, picture, cb) => {
   for(let x in valObj){
     if(valObj[x]!=null){
       arg.push(argObj[x]);
-      val.push(valObj[x]);
+      if(argObj[x]=='phone_number'){
+        val.push(`{"${valObj[x]}"}`);
+      } else {
+        val.push(valObj[x]);
+      }
     }
   }
   const finalArg = arg.map((el, idx)=> `${el}=$${idx+2}`);
-  
   const q = `UPDATE profile SET ${finalArg} WHERE id=$1 RETURNING *`;
   db.query(q, val, (err, result)=>{
     if(err){

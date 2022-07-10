@@ -62,3 +62,7 @@ exports.validatorPasswordConfirm = [
       return hash;
     })
 ];
+
+exports.validatorPhone = [
+  body('phoneNumber').isMobilePhone('id-ID').withMessage('Format phone is not support')
+];

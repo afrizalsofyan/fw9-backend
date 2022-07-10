@@ -46,7 +46,7 @@ exports.login = (req, res) => {
           const token = jwt.sign({id: user.id, email: user.email, username: user.username}, process.env.APP_SECRET || 'secretKey', {expiresIn: '1d'});
           return response(res, 'Login success', {token});
         } else {
-          return response(res, 'Login Failed', null, null, 401);
+          return response(res, 'Login Failed, Email or Password is incorrect.', null, null, 401);
         }
       }).catch((e)=>{
         return response(res, `Error: ${e.message}`, null, null, 404);
