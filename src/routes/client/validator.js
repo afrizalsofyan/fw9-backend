@@ -46,3 +46,19 @@ exports.validatorForgetPassword = [
   body('confirmPassword').isLength({min: 5})
     .withMessage('Password must be 5 characters')
 ];
+
+exports.validatorPasswordConfirm = [
+  body('repeatPassword')
+    .custom((val, {req}) => {
+      if(val !== req.body.newPassword){
+        throw new Error('Repeat password is incorrect!!!');
+      }
+      return true;
+    }),
+  body('newPassword').isLength({min: 5})
+    .withMessage('Password mus be 5 characters')
+    .customSanitizer( async (val) => {
+      const hash = await bcrypt.hash(val, 10);
+      return hash;
+    })
+];
