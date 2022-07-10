@@ -23,7 +23,7 @@ exports.updateProfile = (req, res) => {
       picture = req.file.filename;
     }
     profileModel.updateProfile(idProfile, req.body, picture, (err, result) =>{
-      console.log(result);
+      console.log(err);
       if(result.length < 1){
         return response(res, 'Update failed', null, null, 400);
       }
@@ -32,3 +32,42 @@ exports.updateProfile = (req, res) => {
   });
 };
 
+exports.addPhoneNumber = (req, res) => {
+  const data = req.authUser;
+  const newPhone = req.body.phoneNumber;
+  profileModel.getProfileByUserId(data.id, (err, result)=>{
+    const arrPhone = result[0].phone_number == null ? [newPhone] : [result[0].phone_number, newPhone];
+    const phoneStr =  result[0].phone_number == null ? arrPhone : arrPhone[0].join('').split(',');
+    const profileData = result[0];
+    if(phoneStr.length < 2){
+      profileModel.updateProfile(profileData.id, {phoneNumber: arrPhone}, null, (err, resultUpdate)=>{
+        return response(res, 'Create phone successfully.', resultUpdate[0]);
+      });
+    } else {
+      return response(res, 'Error!!! max save is 2 phone number.', null, null, 400);
+    }
+  });
+};
+
+exports.updatePhoneNumber = (req, res) => {
+  const data = req.authUser;
+  const newPhone = req.body.phoneNumber;
+  profileModel.getProfileByUserId(data.id, (err, result)=>{
+    const arrPhone = result[0].phone_number;
+    const phoneArr = arrPhone[0].split(',');
+    let phoneNumber = [];
+    for(let x in phoneArr){
+      if(x==req.body.indexPhone){ 
+        phoneNumber.push(newPhone);
+      } else {
+        phoneNumber.push(phoneArr[x]);
+      }
+    }
+    const phoneParam = phoneNumber.join(',');
+    // console.log(phoneParam);
+    const profileData = result[0];
+    profileModel.updateProfile(profileData.id, {phoneNumber: phoneParam}, null, (err, resultUpdate)=>{
+      return response(res, 'Update phone number successfully.', resultUpdate[0]);
+    });
+  });
+};
