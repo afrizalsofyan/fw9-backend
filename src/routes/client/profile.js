@@ -1,11 +1,10 @@
 const profileRoute = require('express').Router();
 
 const authMiddleware = require('../../middleware/auth');
-const profileConstroller = require('../../controllers/client/profileClient');
+const profileController = require('../../controllers/client/profileController');
 const uploudMiddleware = require('../../middleware/uploudProfile');
 
-profileRoute.get('/', authMiddleware, profileConstroller.getProfile);
-profileRoute.patch('/', authMiddleware, uploudMiddleware, profileConstroller.updateProfile);
-profileRoute.patch('/changePassword', authMiddleware, profileConstroller.changePassword);
+profileRoute.get('/', authMiddleware, profileController.getProfile);
+profileRoute.patch('/', authMiddleware, uploudMiddleware, profileController.updateProfile);
 
 module.exports = profileRoute;
