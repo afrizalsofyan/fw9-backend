@@ -43,7 +43,7 @@ exports.login = (req, res) => {
     bcrypt.compare(password, user.password)
       .then((checkPass) => {
         if(checkPass){
-          const token = jwt.sign({id: user.id, email: user.email, username: user.username}, process.env.APP_SECRET || 'secretKey');
+          const token = jwt.sign({id: user.id, email: user.email, username: user.username}, process.env.APP_SECRET || 'secretKey', {expiresIn: '1d'});
           return response(res, 'Login success', {token});
         } else {
           return response(res, 'Login Failed', null, null, 401);
@@ -84,3 +84,7 @@ exports.forgetPassword = (req, res) => {
     return response(res, 'Error!!! email or token invalid', null, null, 403);
   }
 };
+
+// exports.confirmEmail = (req, res) => {
+//   console.log('this for confirm email');
+// };
