@@ -1,6 +1,7 @@
 const userModel = require('../../models/users');
 const bcrypt   = require('bcrypt');
 const response = require('../../helpers/standartResponse');
+const errorResponse = require('../../helpers/errorResponse');
 
 exports.changePassword = (req, res) => {
   const data = req.authUser;
@@ -22,5 +23,32 @@ exports.changePassword = (req, res) => {
       })
       .catch(e=>response(res, e.message, null, null, 400));
   });
-  // userModel.updateUsers(data.id)
+};
+
+exports.getPin = (req, res) => {
+  const data = req.authUser;
+  userModel.getUserByEmail(data.email, (err, result)=>{
+    if(result.length<1){
+      return response(res, 'User not found', null, null, 400);
+    } else {
+      const pinUser = result.rows[0].pin_number;
+      return response(res, 'This is your pin.', {pinUser}, null);
+    }
+  });
+};
+
+exports.changePin = (req, res) => {
+  const data = req.authUser;
+  userModel.getUserByEmail(data.email, (err, result)=>{
+    const user = result.rows[0];
+    if(user.length < 1) {
+      return response(res, 'User not found.', null, null, 400);
+    } 
+    userModel.updateUsers(user.id, {pin: req.body.pin}, (err)=>{
+      if(err) {
+        return errorResponse(err, res);
+      } 
+      return response(res, 'Your pin has been updated');
+    });
+  });
 };

@@ -8,5 +8,7 @@ const validationMiddleware = require('../../middleware/validation');
 userRoute.patch('/changePassword', authMiddleware, 
   validatorRules.validatorPasswordConfirm, validationMiddleware, 
   userController.changePassword);
+userRoute.get('/changePin', authMiddleware, userController.getPin);
+userRoute.patch('/changePin', authMiddleware, userController.changePin);
 
 module.exports = userRoute;
