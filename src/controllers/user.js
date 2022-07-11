@@ -11,7 +11,6 @@ exports.getAllUser = (req, res) => {
   const {search='', limit=parseInt(LIMIT_DATA), page=1, sortBy='id', sortType=0} = req.query;
   const offset = (page-1) * limit;
   userModel.getAllUsers(search, sortBy, parseInt(sortType), limit, offset, (err, result)=>{
-    console.log(err);
     if(result.length < 1){
       return res.redirect('/404');
     }

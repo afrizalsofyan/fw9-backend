@@ -81,24 +81,40 @@ exports.softDelete = (id, cb) => {
   });
 };
 
-exports.createTransaction = (time, data, id, cb) => {
-  const q = 'INSERT INTO transaction(time_transaction, notes, amount, type_id, recipient_id, sender_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING *';
-  const val = [time, data.notes, data.amount, data.type_id, data.recipient_id, id];
-  db.query(q, val, (err, result)=>{
-    if(err) {
+exports.createTransaction = (time, senderId, data, cb) => {
+  db.query('BEGIN', err => {
+    if (err) {
       cb(err);
-    } else {
-      cb(err, result.rows);
     }
+    const insTrans = 'INSERT INTO transaction(time_transaction, notes, amount, type_id, recipient_id, sender_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING time_transaction, notes, amount, recipient_id';
+    const valIns = [time, data.notes, data.amount, data.type_id, data.recipient_id, senderId];
+    db.query(insTrans, valIns, (err, resultIns)=>{
+      if(err){
+        cb(err);
+      } else {
+        cb(err, resultIns.rows);
+        const updUser1 = 'UPDATE profile SET balance=balance-$1 WHERE user_id=$2';
+        const valUpd1 = [Number(data.amount), senderId];
+        db.query(updUser1, valUpd1, err=>{
+          if(err){
+            cb(err);
+          } else {
+            const updUser2 = 'UPDATE profile SET balance=balance+$1 WHERE user_id=$2';
+            const valUpd2 = [parseInt(data.amount), parseInt(data.recipient_id)];
+            db.query(updUser2, valUpd2, err => {
+              if(err) {
+                cb(err);
+              } else {
+                db.query('COMMIT', err => {
+                  if(err) {
+                    console.log('Error commit transaction', err.stack);
+                  } 
+                });
+              }
+            });
+          }
+        });
+      }
+    });
   });
 };
-
-// exports.amountCalculate = (senderId, recipientId, amountSender, amountRecipient, cb) => {
-//   db.query('BEGIN', err => {
-//     if (err) {
-//       cb(err);
-//     }
-//     const q = 'UPDATE transaction SET amount=$1, type_id=$4, recipient_id=$5, sender_id=$6 WHERE id=$7 RETURNING *';
-//   const val = [data.time, data.notes, data.amount, data.type_id, data.recipient_id, data.sender_id, id];
-//   })
-// }

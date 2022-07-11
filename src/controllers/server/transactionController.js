@@ -1,54 +1,40 @@
 const transactionModel = require('../../models/transaction');
-const profileModel = require('../../models/profiles');
-const userModel = require('../../models/users');
 const response = require('../../helpers/standartResponse');
+const profileModel = require('../../models/profiles');
 
 exports.createTransaction = (req, res) => {
-  const data = req.authUser;
+  const currentUser = req.authUser;
   const tm = new Date();
   req.body.time = new Date(tm.toLocaleString('en-US', {timeZone: 'Asia/Jakarta'}));
   const dateStr = req.body.time.toLocaleDateString();
   const timeStr = req.body.time.toLocaleTimeString();
   let dateTime = dateStr+'T'+timeStr;
-  profileModel.getProfileByUserId(data.id, (err, rs)=>{
-    if(rs[0].balance < req.body.amount) {
-      return response(res, 'Balance is low then amount, change amount or top up first!!!', null, null, 400);
-    } else if (rs[0].balance < 1) {
-      return response(res, 'Your have\'nt more balance, plea top up first!!!', null, null, 400);
-    } else {
-      transactionModel.createTransaction(dateTime, req.body, data.id, (err, result)=>{
-        const senderId = data.id;
-        profileModel.getProfileByUserId(senderId, (err, resultProfile)=>{
-          if(resultProfile < 1 ){
-            return response(res, 'Profile sender not found', null, null, 400);
-          } else {
-            const currentBalance = resultProfile[0].balance;
-            const newBalance = currentBalance - req.body.amount;
-            profileModel.updateProfile(resultProfile[0].id, {balance: newBalance}, null, ()=>{});
-          }
+  const minTransfer = 10000;
+  const maxTransfer = 50000000;
+  
+  if(req.body.amount == '') {
+    req.body.amount = 0;
+  }
+  if(req.body.amount < minTransfer){
+    return response(res, 'Minimum transfer is 10.000', null, null, 400);
+  } else if(req.body.amount > maxTransfer) {
+    return response(res, 'Maximum trasfer is 50.000.000', null, null, 400);
+  } else {
+    profileModel.getProfileByUserId(currentUser.id, (err, rslt) => {
+      if(rslt[0].balance < 1) {
+        return response(res, 'Your have\'nt more balance, please top up first!!!', null, null, 400);
+      } else if (rslt[0].balance < req.body.amount ) {
+        return response(res, 'Balance is low then amount, change amount or top up first!!!', null, null, 400);
+      } else {
+        transactionModel.createTransaction(dateTime, currentUser.id, req.body, (err, result)=>{
+          if(result.length < 1){
+            return response(res, 'Transaction failed.', null, null, 400);
+          } 
+          return response(res, 'Transaction success.', result[0]);
         });
-        if(req.body.recipient_id) {
-          const recipientId = parseInt(req.body.recipient_id);
-          userModel.getUser(recipientId, (err, resultUser)=>{
-            if(resultUser.length < 1){
-              return response(res, 'Recipent id not found!!!', null, null, 400);
-            } else {
-              profileModel.getProfileByUserId(resultUser[0].id, (err, resultProfile)=>{
-                if(resultProfile < 1 ){
-                  return response(res, 'Profile recipient not found', null, null, 400);
-                } else {
-                  const currentBalance = parseInt(resultProfile[0].balance);
-                  const newBalance = currentBalance + parseInt(req.body.amount);
-                  profileModel.updateProfile(resultProfile[0].id, {balance: newBalance}, null, ()=>{});
-                }
-              });
-            }
-          });
-        }
-        return response(res, 'Transaction has been created.', result[0]);
-      });
-    }
-  });
+      }
+    });
+  }
 };
 
 exports.historyTransaction = (req, res) => {
