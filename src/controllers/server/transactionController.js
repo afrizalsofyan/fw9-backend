@@ -56,8 +56,6 @@ exports.historyTransaction = (req, res) => {
   const {search='',searchBy, sortBy, sortType, limit=parseInt(process.env.LIMIT_DATA), page=1} = req.query;
   const type = parseInt(sortType);
   const offset = (page-1) * limit;
-  console.log(offset);
-  console.log(limit);
   let typeSort='';
   if(type == 0){
     typeSort = 'ASC';

@@ -30,7 +30,7 @@ app.get('/', (req, res)=>{
 const portServer = process.env.PORT;
 
 app.use('/admin', require('./src/routes/admin'));
-app.use('/', require('./src/routes/client'));
+app.use('/', require('./src/routes/server'));
 
 app.use('*', (req, res)=>{
   return res.status(404).json({

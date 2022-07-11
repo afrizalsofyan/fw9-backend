@@ -4,7 +4,6 @@ const profileModel = require('../../models/profiles');
 
 exports.getProfile = (req, res) => {
   const data = req.authUser;
-  console.log(data.id);
   profileModel.getProfileByUserId(data.id, (err, result)=>{
     if(err){
       return errorResponse(err, res);
@@ -23,7 +22,6 @@ exports.updateProfile = (req, res) => {
       picture = req.file.filename;
     }
     profileModel.updateProfile(idProfile, req.body, picture, (err, result) =>{
-      console.log(err);
       if(result.length < 1){
         return response(res, 'Update failed', null, null, 400);
       }
@@ -64,7 +62,6 @@ exports.updatePhoneNumber = (req, res) => {
       }
     }
     const phoneParam = phoneNumber.join(',');
-    // console.log(phoneParam);
     const profileData = result[0];
     profileModel.updateProfile(profileData.id, {phoneNumber: phoneParam}, null, (err, resultUpdate)=>{
       return response(res, 'Update phone number successfully.', resultUpdate[0]);

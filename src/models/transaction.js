@@ -22,7 +22,6 @@ exports.getAllTransaction = (keyword, searchBy, sortBy, sortType, limit, offset,
   LIMIT $2 OFFSET $3`;
   const val = [id, limit, offset];
   db.query(q, val, (err, result)=>{
-    console.log(err);
     cb(err, result.rows);
   });
 };

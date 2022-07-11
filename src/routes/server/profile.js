@@ -1,7 +1,7 @@
 const profileRoute = require('express').Router();
 
 const authMiddleware = require('../../middleware/auth');
-const profileController = require('../../controllers/client/profileController');
+const profileController = require('../../controllers/server/profileController');
 const uploudMiddleware = require('../../middleware/uploudProfile');
 const validatorRules = require('./validator');
 const validation = require('../../middleware/validation');
