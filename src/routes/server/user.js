@@ -9,6 +9,6 @@ userRoute.patch('/changePassword', authMiddleware,
   validatorRules.validatorPasswordConfirm, validationMiddleware, 
   userController.changePassword);
 userRoute.get('/changePin', authMiddleware, userController.getPin);
-userRoute.patch('/changePin', authMiddleware, userController.changePin);
+userRoute.patch('/changePin', authMiddleware, validatorRules.validatorPin, validationMiddleware, userController.changePin);
 
 module.exports = userRoute;

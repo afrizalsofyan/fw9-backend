@@ -43,12 +43,15 @@ exports.changePin = (req, res) => {
     const user = result.rows[0];
     if(user.length < 1) {
       return response(res, 'User not found.', null, null, 400);
-    } 
-    userModel.updateUsers(user.id, {pin: req.body.pin}, (err)=>{
-      if(err) {
-        return errorResponse(err, res);
-      } 
-      return response(res, 'Your pin has been updated');
-    });
+    } else if(user.pin_number !== parseInt(req.body.currentPin)){
+      return response(res, 'Current pin not match with your pin now.', null, null, 400);
+    } else {
+      userModel.updateUsers(user.id, {pin: req.body.newPin}, (err)=>{
+        if(err) {
+          return errorResponse(err, res);
+        } 
+        return response(res, 'Your pin has been updated');
+      });
+    }
   });
 };

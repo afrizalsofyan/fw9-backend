@@ -16,18 +16,19 @@ exports.getAllTransaction = (keyword, searchBy, sortBy, sortType, limit, offset,
   if(sortBy=='time'){
     sortBy='time_transaction';
   }
-  const q = `SELECT * FROM transaction WHERE sender_id=$1 
-  ${searchBy != null ? 'AND' `(${searchBy} LIKE '%${keyword}%')`: ''} 
-  ORDER BY ${sortBy==null? 'time_transaction DESC' : `${sortBy} ${sortType}`}
+  const q = `SELECT * FROM transaction WHERE ${searchBy != null ? `${searchBy=='amount' ? 'amount::text' : searchBy} LIKE '%${keyword}%' AND `: ''} 
+  recipient_id=$1 OR sender_id=$1 ORDER BY ${sortBy==null ? 'time_transaction DESC' : `${sortBy} ${sortType}`}
   LIMIT $2 OFFSET $3`;
   const val = [id, limit, offset];
+  
   db.query(q, val, (err, result)=>{
     cb(err, result.rows);
   });
 };
 
-exports.countTransactionData = (keyword, cb) => {
-  const q = 'SELECT * FROM transaction';
+exports.countTransactionData = (keyword, searchBy, userId, cb) => {
+  const q = `SELECT * FROM transaction WHERE ${searchBy != null ? `${searchBy=='amount' ? 'amount::text' : searchBy} LIKE '%${keyword}%' AND `: ''} 
+  recipient_id=${userId} OR sender_id=${userId}`;
   db.query(q, (err, result)=>{
     cb(err, result.rowCount);
   });
@@ -116,5 +117,38 @@ exports.createTransaction = (time, senderId, data, cb) => {
         });
       }
     });
+  });
+};
+
+exports.topUpBalance = (time, userId, data, cb) => {
+  db.query('BEGIN', err=> {
+    if(err){
+      cb(err);
+    } else {
+      const insTopup = 'INSERT INTO transaction(time_transaction, amount, type_id, recipient_id) VALUES($1, $2, $3, $4) RETURNING time_transaction, amount, type_id, recipient_id';
+      const valTopup = [time, data.amount, data.type_id, userId];
+      db.query(insTopup, valTopup, (err, result)=>{
+        if(err) {
+          cb(err);
+        } else {
+          cb(err, result.rows);
+          const updBalance = 'UPDATE profile SET balance=balance+$1 WHERE user_id=$2';
+          const valBalance = [parseInt(data.amount), userId];
+          db.query(updBalance, valBalance, (err)=>{
+            if(err) {
+              cb(err);
+            } else {
+              db.query('COMMIT', err => {
+                if (err) { {
+                  cb(err);
+                }
+                  
+                }
+              });
+            }
+          });
+        }
+      });
+    }
   });
 };

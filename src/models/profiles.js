@@ -53,7 +53,6 @@ exports.updateProfile = (id, data, picture, cb) => {
     'first_name': data.firstName,
     'last_name': data.lastName,
     'phone_number': data.phoneNumber,
-    'balance': data.balance,
     'photo_url': picture == null ? picture : `${imgUrl}/${picture}`
   };
 

@@ -3,6 +3,7 @@ const transactionController = require('../../controllers/server/transactionContr
 const authMiddleware = require('../../middleware/auth');
 
 transactionRoute.get('/historyTransaction',authMiddleware, transactionController.historyTransaction);
-transactionRoute.post('/transfer', authMiddleware, transactionController.createTransaction);
+transactionRoute.post('/transfer', authMiddleware, transactionController.transfer);
+transactionRoute.patch('/topup', authMiddleware, transactionController.topUpBalance);
 
 module.exports = transactionRoute;

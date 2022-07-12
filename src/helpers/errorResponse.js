@@ -22,10 +22,10 @@ const errorResponse = (err, res) => {
     const errData = errorHandling('User id is not present!!!', 'User id');
     return response(res, 'Wrong user id', errData, null, 400);
   } else if (err.code === '23503' && err.detail.includes('not present') && err.detail.includes('sender_id')){
-    const errData = errorHandling('User id is not present!!!', 'User id');
+    const errData = errorHandling('Sender id is not present!!!', 'Sender id');
     return response(res, 'Wrong user id', errData, null, 400);
   } else if (err.code === '23503' && err.detail.includes('not present') && err.detail.includes('recipient_id')){
-    const errData = errorHandling('User id is not present!!!', 'User id');
+    const errData = errorHandling('Recipient id is not present!!!', 'Recipient id');
     return response(res, 'Wrong user id', errData, null, 400);
   } else if (err.code === '23503' && err.detail.includes('not present') && err.detail.includes('type_id')){
     const errData = errorHandling('Type id is not present!!!', 'Type id');
