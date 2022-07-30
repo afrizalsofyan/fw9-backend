@@ -137,3 +137,11 @@ exports.getUserByEmail = (email, cb) => {
     cb(err, result);
   });
 };
+
+exports.getUserWithProfile = (id, cb) => {
+  const q = 'SELECT users.email, users.username, profile.id, profile.first_name, profile.last_name, profile.phone_number, profile.photo_url, profile.balance FROM users JOIN profile ON users.id = profile.user_id WHERE users.id = $1';
+  const val = [id];
+  db.query(q, val, (err, result)=>{
+    cb(err, result);
+  });
+};

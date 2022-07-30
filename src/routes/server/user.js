@@ -5,9 +5,11 @@ const userController = require('../../controllers/server/userController');
 const validatorRules = require('./validator');
 const validationMiddleware = require('../../middleware/validation');
 
+
 userRoute.patch('/changePassword', authMiddleware, 
   validatorRules.validatorPasswordConfirm, validationMiddleware, 
   userController.changePassword);
+userRoute.get('/currentUser', authMiddleware, userController.getCurrentUser);
 userRoute.get('/changePin', authMiddleware, userController.getPin);
 userRoute.patch('/changePin', authMiddleware, validatorRules.validatorPin, validationMiddleware, userController.changePin);
 

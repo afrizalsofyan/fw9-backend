@@ -3,6 +3,17 @@ const bcrypt   = require('bcrypt');
 const response = require('../../helpers/standartResponse');
 const errorResponse = require('../../helpers/errorResponse');
 
+exports.getCurrentUser = (req, res) => {
+  const data = req.authUser;
+  userModel.getUserWithProfile(data.id, (err, result)=>{
+    if(result.rows.length < 1) {
+      return response(res, 'Failed to get user data', null, null, 400);
+    } else {
+      return response(res, 'Succes to get user data', result.rows);
+    }
+  });
+};
+
 exports.changePassword = (req, res) => {
   const data = req.authUser;
   const {currentPassword} = req.body;
