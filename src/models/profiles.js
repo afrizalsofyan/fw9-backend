@@ -96,3 +96,35 @@ exports.getProfileByUserId = (userId, cb) => {
     cb(err, result.rows);
   });
 };
+
+exports.updateProfileAndUser = (data, picture, cb) =>{
+  const fieldTable = {
+    'first_name': data.firstName,
+    'last_name': data.lastName,
+    'phone_number': data.phoneNumber,
+    'balance': data.balance,
+    'photo_url': picture==null? picture : `${imgUrl}/${picture}`,
+    'user_id': data.user_id
+  };
+
+  let val = [];
+  let arg = [];
+  const argObj = Object.keys(fieldTable);
+  const valObj = Object.values(fieldTable);
+  for(let x in valObj){
+    if(valObj[x]!=null){
+      arg.push(argObj[x]);
+      val.push(valObj[x]);
+    }
+  }
+  const argPosition = arg.map((el, idx)=> `$${idx+1}`);
+  
+  const q = `INSERT INTO profile(${arg}) VALUES(${argPosition}) RETURNING *`;
+  db.query(q, val, (err, result)=>{
+    if(err){
+      cb(err);
+    } else {
+      cb(err, result.rows);
+    }
+  });
+};

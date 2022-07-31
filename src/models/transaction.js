@@ -152,3 +152,31 @@ exports.topUpBalance = (time, userId, data, cb) => {
     }
   });
 };
+
+exports.historyTransaction = (keyword,searchBy, sortBy, sortType, limit, offset, currentUserId, cb) => {
+  if(sortBy=='time'){
+    sortBy='time_transaction';
+  }
+  const q = `SELECT t.id, t.time_transaction, t.notes,transaction_type.type_name type, u1.username recipient, u2.username sender, t.amount FROM "transaction" t JOIN users u1 ON u1.id = t.recipient_id JOIN users u2 ON u2.id = t.sender_id JOIN transaction_type ON transaction_type.id = t.type_id WHERE 
+  ${searchBy != null ? 
+    (`${searchBy==='amount' ? 't.amount::text' : `${searchBy==='recipient'?'u1.username' : `${searchBy==='sender' ? 'u2.username' : ''}`}`} LIKE '%${keyword}%' AND`) : ''} 
+
+    (t.recipient_id = $1 OR t.sender_id = $2) ORDER BY ${sortBy == null ? 't.time_transaction DESC' : `${sortBy} ${sortType}`} LIMIT $3 OFFSET $4`;
+  const val = [currentUserId, currentUserId, limit, offset];
+  db.query(q, val, (err, result)=>{
+    // console.log(err)
+    cb(err, result);
+  });
+};
+
+exports.countHistoryTransaction = (keyword, searchBy, currentUserId, cb) => {
+  const q = `SELECT t.id, t.time_transaction, t.notes,transaction_type.type_name, u1.username recipient, u2.username sender, t.amount FROM "transaction" t JOIN users u1 ON u1.id = t.recipient_id JOIN users u2 ON u2.id = t.sender_id JOIN transaction_type ON transaction_type.id = t.type_id WHERE 
+  ${searchBy != null ? 
+    (`${searchBy==='amount' ? 't.amount::text' : `${searchBy==='recipient'?'u1.username' : `${searchBy==='sender' ? 'u2.username' : ''}`}`} LIKE '%${keyword}%' AND`) : ''} 
+
+    (t.recipient_id = $1 OR t.sender_id = $2)`;
+  const val = [currentUserId, currentUserId];
+  db.query(q, val, (err, result)=>{
+    cb(err, result.rowCount);
+  });
+};

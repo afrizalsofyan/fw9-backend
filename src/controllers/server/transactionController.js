@@ -134,3 +134,32 @@ exports.topUpBalance = (req, res) => {
     });
   }
 };
+
+exports.getAllTransactions = (req, res) => {
+  const currentUser = req.authUser;
+  const {search='',searchBy, sortBy, sortType, limit=parseInt(process.env.LIMIT_DATA), page=1} = req.query;
+  const type = parseInt(sortType);
+  const offset = (page-1) * limit;
+  let typeSort='';
+  const pageInfo = {};
+  if(type == 0){
+    typeSort = 'ASC';
+  } else {
+    typeSort = 'DESC';
+  }
+  if(!type){
+    typeSort = 'ASC';
+  }
+  transactionModel.historyTransaction(search, searchBy, sortBy, typeSort, limit, offset, currentUser.id,  (err, result)=>{
+    console.log(result.rows);
+    transactionModel.countHistoryTransaction(search, searchBy, currentUser.id, (err, infoData)=>{
+      pageInfo.totalDatas = infoData;
+      pageInfo.pages = Math.ceil(infoData/limit);
+      pageInfo.currentPage = parseInt(page);
+      pageInfo.prevPage = pageInfo.currentPage > 1 ? pageInfo.currentPage - 1 : null;
+      pageInfo.nextPage = pageInfo.currentPage < pageInfo.pages ? pageInfo.currentPage + 1 : null;
+      // return response(res, 'This is all transaction', result, pageInfo);
+      return response(res, 'This is all your transaction history', result.rows, pageInfo);
+    });
+  });
+};
