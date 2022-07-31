@@ -9,7 +9,7 @@ exports.getCurrentUser = (req, res) => {
     if(result.rows.length < 1) {
       return response(res, 'Failed to get user data', null, null, 400);
     } else {
-      return response(res, 'Succes to get user data', result.rows);
+      return response(res, 'Succes to get user data', result.rows[0]);
     }
   });
 };
@@ -63,6 +63,20 @@ exports.changePin = (req, res) => {
         } 
         return response(res, 'Your pin has been updated');
       });
+    }
+  });
+};
+
+exports.allUser = (req, res) => {
+  userModel.getAllUserWithName((err, result)=>{
+    if(err) {
+      return errorResponse('Data cant selected', res);
+    } else {
+      if(result.rows < 1) {
+        return response(res, 'There no data of users', null, null, 400);
+      } else {
+        return response(res, 'This is all users', result.rows);
+      }
     }
   });
 };

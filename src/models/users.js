@@ -145,3 +145,10 @@ exports.getUserWithProfile = (id, cb) => {
     cb(err, result);
   });
 };
+
+exports.getAllUserWithName = (cb) => {
+  const q = 'SELECT users.id, profile.first_name, profile.last_name, profile.phone_number, profile.photo_url FROM users JOIN profile on profile.user_id = users.id';
+  db.query(q, (err, result)=>{
+    cb(err, result);
+  });
+};
