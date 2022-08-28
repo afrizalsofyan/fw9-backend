@@ -2,7 +2,7 @@ const userModel = require('../../models/users');
 const bcrypt   = require('bcrypt');
 const response = require('../../helpers/standartResponse');
 const errorResponse = require('../../helpers/errorResponse');
-
+const {LIMIT_DATA} = process.env;
 exports.getCurrentUser = (req, res) => {
   const data = req.authUser;
   userModel.getUserWithProfile(data.id, (err, result)=>{
@@ -69,14 +69,26 @@ exports.changePin = (req, res) => {
 };
 
 exports.allUser = (req, res) => {
-  userModel.getAllUserWithName((err, result)=>{
+  const {search='', limit=parseInt(LIMIT_DATA), page=1, sortBy='id', sortType=0} = req.query;
+  const offset = (page-1) * limit;
+  userModel.getAllUserWithName(search, sortBy, parseInt(sortType), limit, offset, (err, result)=>{
     if(err) {
       return errorResponse('Data cant selected', res);
     } else {
       if(result.rows < 1) {
         return response(res, 'There no data of users', null, null, 400);
       } else {
-        return response(res, 'This is all users', result.rows);
+        const pageInfo = {};
+
+        userModel.countAllUsers(search, (err, data)=>{
+          pageInfo.infoData = data;
+          pageInfo.totalPage = Math.ceil(data/limit);
+          pageInfo.currentPage = parseInt(page);
+          pageInfo.prevPage = pageInfo.currentPage > 1 ? pageInfo.currentPage - 1 : null;
+          pageInfo.nextPage = pageInfo.currentPage < pageInfo.totalPage ? pageInfo.currentPage + 1 : null;
+          return response(res, 'List all users', result.rows, pageInfo);
+        });
+        // return response(res, 'This is all users', result.rows);
       }
     }
   });
@@ -85,6 +97,10 @@ exports.allUser = (req, res) => {
 exports.getUserById = (req, res) => {
   const {id} = req.params;
   userModel.getUserWithProfile(id, (err, result)=>{
-    return response(res, 'Succes get users', result.rows[0]);
+    if(result.rows.length < 1){
+      return response(res, 'user not found', null, null, 400);
+    } else {
+      return response(res, 'Succes get users', result.rows[0]);
+    }
   });
 };

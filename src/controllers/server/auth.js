@@ -62,7 +62,7 @@ exports.sendEmailForgetPassword = (req, res) => {
     }
     const data = result.rows[0];
     const token = jwt.sign({id: data.id, email: data.email, username: data.username}, process.env.APP_SECRET || 'newSecretKey');
-    const queryParams = `${process.env.BASE_PATH}auth/forgetPassword?email=${data.email}&token=${token}`;
+    const queryParams = `${process.env.BASE_PATH}/auth/forgetPassword?email=${data.email}&token=${token}`;
     return response(res, 'This is link for change password.', queryParams, null);
   });
 };

@@ -146,9 +146,17 @@ exports.getUserWithProfile = (id, cb) => {
   });
 };
 
-exports.getAllUserWithName = (cb) => {
-  const q = 'SELECT users.id, profile.first_name, profile.last_name, profile.phone_number, profile.photo_url FROM users JOIN profile on profile.user_id = users.id';
-  db.query(q, (err, result)=>{
+exports.getAllUserWithName = (keyword, sortBy, sortType, limit, offset= 0, cb) => {
+  let type = '';
+  if(sortType === 0) {
+    type = 'ASC';
+  } else {
+    type = 'DESC';
+  }
+  const q = `SELECT users.id, profile.first_name, profile.last_name, profile.phone_number, profile.photo_url FROM users JOIN profile on profile.user_id = users.id WHERE is_deleted=false AND (username LIKE '%${keyword}%' 
+  OR email LIKE '%${keyword}%') ORDER BY ${sortBy} ${type} LIMIT $1 OFFSET $2`;
+  const val = [limit, offset];
+  db.query(q, val, (err, result)=>{
     cb(err, result);
   });
 };

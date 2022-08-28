@@ -87,7 +87,7 @@ exports.createTransaction = (time, senderId, data, cb) => {
     if (err) {
       cb(err);
     }
-    const insTrans = 'INSERT INTO transaction(time_transaction, notes, amount, type_id, recipient_id, sender_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING time_transaction, notes, amount, recipient_id';
+    const insTrans = 'INSERT INTO transaction(time_transaction, notes, amount, type_id, recipient_id, sender_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING *';
     const valIns = [time, data.notes, data.amount, data.type_id, data.recipient_id, senderId];
     db.query(insTrans, valIns, (err, resultIns)=>{
       if(err){
@@ -121,16 +121,18 @@ exports.createTransaction = (time, senderId, data, cb) => {
 };
 
 exports.topUpBalance = (time, userId, data, cb) => {
+  const id_topup = 110;
   db.query('BEGIN', err=> {
     if(err){
       cb(err);
     } else {
-      const insTopup = 'INSERT INTO transaction(time_transaction, amount, type_id, recipient_id) VALUES($1, $2, $3, $4) RETURNING time_transaction, amount, type_id, recipient_id';
-      const valTopup = [time, data.amount, data.type_id, userId];
+      const insTopup = 'INSERT INTO transaction(time_transaction, amount, type_id, sender_id, recipient_id) VALUES($1, $2, $3, $4, $5) RETURNING time_transaction, amount, type_id, recipient_id';
+      const valTopup = [time, data.amount, data.type_id, id_topup, userId];
       db.query(insTopup, valTopup, (err, result)=>{
         if(err) {
           cb(err);
         } else {
+          console.log(err);
           cb(err, result.rows);
           const updBalance = 'UPDATE profile SET balance=balance+$1 WHERE user_id=$2';
           const valBalance = [parseInt(data.amount), userId];
@@ -157,12 +159,12 @@ exports.historyTransaction = (keyword,searchBy, sortBy, sortType, limit, offset,
   if(sortBy=='time'){
     sortBy='time_transaction';
   }
-  const q = `SELECT t.id, t.time_transaction, t.notes,transaction_type.type_name type, u1.username recipient, u2.username sender, t.amount FROM "transaction" t JOIN users u1 ON u1.id = t.recipient_id JOIN users u2 ON u2.id = t.sender_id JOIN transaction_type ON transaction_type.id = t.type_id WHERE 
+  const q = `SELECT t.id, t.time_transaction, t.notes,transaction_type.type_name type, u1.username recipient, p1.photo_url image_recipient, u2.username sender, t.amount FROM "transaction" t JOIN users u1 ON u1.id = t.recipient_id JOIN profile p1 ON p1.user_id = u1.id JOIN users u2 ON u2.id = t.sender_id JOIN transaction_type ON transaction_type.id = t.type_id WHERE 
   ${searchBy != null ? 
     (`${searchBy==='amount' ? 't.amount::text' : `${searchBy==='recipient'?'u1.username' : `${searchBy==='sender' ? 'u2.username' : ''}`}`} LIKE '%${keyword}%' AND`) : ''} 
 
-    (t.recipient_id = $1 OR t.sender_id = $2) ORDER BY ${sortBy == null ? 't.time_transaction DESC' : `${sortBy} ${sortType}`} LIMIT $3 OFFSET $4`;
-  const val = [currentUserId, currentUserId, limit, offset];
+    (t.recipient_id = $1 OR t.sender_id = $1) ORDER BY ${sortBy == null ? 't.time_transaction DESC' : `${sortBy} ${sortType}`} LIMIT $2 OFFSET $3`;
+  const val = [currentUserId, limit, offset];
   db.query(q, val, (err, result)=>{
     // console.log(err)
     cb(err, result);

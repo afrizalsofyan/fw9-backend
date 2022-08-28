@@ -38,21 +38,7 @@ exports.transfer = (req, res) => {
               if(err){
                 return errorResponse(err, res);
               } else {
-                if(result.length < 1){
-                  return response(res, 'Transaction failed.', null, null, 400);
-                }
-                //update response if has been create join query
-                profileModel.getProfileByUserId(result[0].recipient_id, (err, resultRecipient)=>{
-                  const finalResult = {
-                    'time_transaction' : result[0].time_transaction, 
-                    'notes': result[0].notes, 
-                    'amount': result[0].amount,
-                    'sender_name': `${rslt[0].first_name} ${rslt[0].last_name}`,
-                    'recipient_name': `${resultRecipient[0].first_name} ${resultRecipient[0].last_name}`, 
-                    'balance': rslt[0].balance
-                  };
-                  return response(res, 'Transaction success.', finalResult);
-                });
+                return response(res, 'Transaction success.', result);
               }
             });
           }
@@ -102,7 +88,7 @@ exports.topUpBalance = (req, res) => {
   let dateTime = dateStr+'T'+timeStr;
   const minTopup = 50000;
   const maxTopup = 100000000;
-  const maxBalance = 1000000000;
+  const maxBalance = 100000000000;
   if(req.body.amount < minTopup) {
     return response(res, 'Minimum topup 50.000', null, null, 400);
   }else if(req.body.amount > maxTopup) {
@@ -110,7 +96,7 @@ exports.topUpBalance = (req, res) => {
   } else {
     profileModel.getProfileByUserId(user.id, (err, result)=>{
       const balance = result[0].balance;
-      const limitBalance = balance + req.body.amount;
+      const limitBalance = balance + parseInt(req.body.amount, 10);
       if(err) {
         return errorResponse(err, res);
       } else {
@@ -150,8 +136,9 @@ exports.getAllTransactions = (req, res) => {
   if(!type){
     typeSort = 'ASC';
   }
+  const finalResult = {};
   transactionModel.historyTransaction(search, searchBy, sortBy, typeSort, limit, offset, currentUser.id,  (err, result)=>{
-    console.log(result.rows);
+    console.log(finalResult);
     transactionModel.countHistoryTransaction(search, searchBy, currentUser.id, (err, infoData)=>{
       pageInfo.totalDatas = infoData;
       pageInfo.pages = Math.ceil(infoData/limit);
@@ -160,7 +147,6 @@ exports.getAllTransactions = (req, res) => {
       // pageInfo.prevPage = pageInfo.currentPage > 1 ? `http://localhost:3555transactions/getAllTransaction?page=${pageInfo.currentPage - 1 }` : null;
       // pageInfo.nextPage = pageInfo.currentPage < pageInfo.pages ? `http://localhost:3555transactions/getAllTransaction?page=${ pageInfo.currentPage + 1 }` : null;
       pageInfo.nextPage = pageInfo.currentPage < pageInfo.pages ? pageInfo.currentPage + 1 : null;
-      console.log(global.__basepath);
       // return response(res, 'This is all transaction', result, pageInfo);
       return response(res, 'This is all your transaction history', result.rows, pageInfo);
     });

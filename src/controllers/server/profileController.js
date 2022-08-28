@@ -1,7 +1,7 @@
 const errorResponse = require('../../helpers/errorResponse');
 const response = require('../../helpers/standartResponse');
 const profileModel = require('../../models/profiles');
-const cloudinary = require('cloudinary').v2;
+// const cloudinary = require('cloudinary').v2;
 
 exports.getProfile = (req, res) => {
   const data = req.authUser;
