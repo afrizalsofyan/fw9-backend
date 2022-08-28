@@ -53,7 +53,7 @@ exports.updateProfile = (id, data, picture, cb) => {
     'first_name': data.firstName,
     'last_name': data.lastName,
     'phone_number': data.phoneNumber,
-    'photo_url': picture == null ? picture : `${imgUrl}/${picture}`
+    'photo_url': picture == null ? picture : `${picture}`
   };
 
   let val = [id];

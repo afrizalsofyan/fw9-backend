@@ -1,6 +1,7 @@
 const errorResponse = require('../../helpers/errorResponse');
 const response = require('../../helpers/standartResponse');
 const profileModel = require('../../models/profiles');
+const cloudinary = require('cloudinary').v2;
 
 exports.getProfile = (req, res) => {
   const data = req.authUser;
@@ -19,7 +20,7 @@ exports.updateProfile = (req, res) => {
     const idProfile = result[0].id;
     let picture = null;
     if(req.file) {
-      picture = req.file.filename;
+      picture = req.file.path;
     }
     profileModel.updateProfile(idProfile, req.body, picture, (err, result) =>{
       if(result.length < 1){
@@ -29,6 +30,11 @@ exports.updateProfile = (req, res) => {
     });
   });
 };
+
+//delete photo
+// const photo = (result[0].photo_url.split('/')[result[0].photo_url.split('/').length-1])
+//     const finalPhoto = photo.split('.')[0];
+//     cloudinary.uploader.destroy(`ourpocket/users/${finalPhoto}`, (err, result) => console.log(result));
 
 exports.addPhoneNumber = (req, res) => {
   const data = req.authUser;

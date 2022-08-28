@@ -5,7 +5,7 @@ const validation = require('../../middleware/validation');
 const validatorRules = require('./validator');
 
 auth.post('/register', validatorRules.validatorAuth, validation, authController.register);
-auth.post('/createPin', validatorRules.validatorPin, validation, authController.createPin);
+auth.post('/createPin', validatorRules.validatorCreatePin, validation, authController.createPin);
 auth.post('/login', validatorRules.validatorLogin, validation, authController.login);
 auth.post('/forgetPasswordLink', validatorRules.validatorEmail, validation, authController.sendEmailForgetPassword);
 auth.patch('/forgetPassword', validatorRules.validatorForgetPassword, validation, authController.forgetPassword);

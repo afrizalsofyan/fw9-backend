@@ -6,6 +6,7 @@ const errorResponse = require('../../helpers/errorResponse');
 exports.getCurrentUser = (req, res) => {
   const data = req.authUser;
   userModel.getUserWithProfile(data.id, (err, result)=>{
+    // console.log(err);
     if(result.rows.length < 1) {
       return response(res, 'Failed to get user data', null, null, 400);
     } else {
@@ -78,5 +79,12 @@ exports.allUser = (req, res) => {
         return response(res, 'This is all users', result.rows);
       }
     }
+  });
+};
+
+exports.getUserById = (req, res) => {
+  const {id} = req.params;
+  userModel.getUserWithProfile(id, (err, result)=>{
+    return response(res, 'Succes get users', result.rows[0]);
   });
 };

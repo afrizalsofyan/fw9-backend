@@ -19,6 +19,11 @@ exports.validatorPin = [
     .isLength({min: 6, max: 6}).withMessage('Pin must 6 character!!')
     .isNumeric().withMessage('Pin must be number')
 ];
+exports.validatorCreatePin = [
+  body('pin')
+    .isLength({min: 6, max: 6}).withMessage('Pin must 6 character!!')
+    .isNumeric().withMessage('Pin must be number')
+];
 
 exports.validatorLogin = [
   body('email').isEmail().withMessage('Format email invalid!!'),

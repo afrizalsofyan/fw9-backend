@@ -10,6 +10,7 @@ userRoute.patch('/changePassword', authMiddleware,
   validatorRules.validatorPasswordConfirm, validationMiddleware, 
   userController.changePassword);
 userRoute.get('/currentUser', authMiddleware, userController.getCurrentUser);
+userRoute.get('/getUser/:id', authMiddleware, userController.getUserById);
 userRoute.get('/changePin', authMiddleware, userController.getPin);
 userRoute.get('/allUser', authMiddleware, userController.allUser);
 userRoute.patch('/changePin', authMiddleware, validatorRules.validatorPin, validationMiddleware, userController.changePin);

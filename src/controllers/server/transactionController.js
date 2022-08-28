@@ -157,7 +157,10 @@ exports.getAllTransactions = (req, res) => {
       pageInfo.pages = Math.ceil(infoData/limit);
       pageInfo.currentPage = parseInt(page);
       pageInfo.prevPage = pageInfo.currentPage > 1 ? pageInfo.currentPage - 1 : null;
+      // pageInfo.prevPage = pageInfo.currentPage > 1 ? `http://localhost:3555transactions/getAllTransaction?page=${pageInfo.currentPage - 1 }` : null;
+      // pageInfo.nextPage = pageInfo.currentPage < pageInfo.pages ? `http://localhost:3555transactions/getAllTransaction?page=${ pageInfo.currentPage + 1 }` : null;
       pageInfo.nextPage = pageInfo.currentPage < pageInfo.pages ? pageInfo.currentPage + 1 : null;
+      console.log(global.__basepath);
       // return response(res, 'This is all transaction', result, pageInfo);
       return response(res, 'This is all your transaction history', result.rows, pageInfo);
     });
