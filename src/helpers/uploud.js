@@ -41,7 +41,7 @@ const uploud = multer({
     }
   },
   limits:{
-    fileSize: 1 * 1000 * 1000
+    fileSize: 4 * 1000 * 1000
   }
 });
 
