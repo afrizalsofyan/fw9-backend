@@ -6,8 +6,8 @@ const {LIMIT_DATA} = process.env;
 exports.getCurrentUser = (req, res) => {
   const data = req.authUser;
   userModel.getUserWithProfile(data.id, (err, result)=>{
-    // console.log(err);
-    if(result.rows.length < 1) {
+    console.log(err);
+    if(err) {
       return response(res, 'Failed to get user data', null, null, 400);
     } else {
       return response(res, 'Succes to get user data', result.rows[0]);

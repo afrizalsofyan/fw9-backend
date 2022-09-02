@@ -159,12 +159,13 @@ exports.historyTransaction = (keyword,searchBy, sortBy, sortType, limit, offset,
   if(sortBy=='time'){
     sortBy='time_transaction';
   }
-  const q = `SELECT t.id, t.time_transaction, t.notes,transaction_type.type_name type, u1.username recipient, p1.photo_url image_recipient, u2.username sender, t.amount FROM "transaction" t JOIN users u1 ON u1.id = t.recipient_id JOIN profile p1 ON p1.user_id = u1.id JOIN users u2 ON u2.id = t.sender_id JOIN transaction_type ON transaction_type.id = t.type_id WHERE 
+  // const q = 'SELECT * FROM transaction WHERE recipient_id=$1 OR sender_id=$2 ORDER BY amount DESC, id DESC LIMIT $3 OFFSET $4';
+  const q = `SELECT t.id, t.time_transaction, t.notes,transaction_type.type_name type, u1.username recipient, p1.photo_url image_recipient, u2.username sender, t.amount FROM "transaction" t FULL OUTER JOIN users u1 ON u1.id = t.recipient_id FULL OUTER JOIN profile p1 ON p1.user_id = u1.id FULL OUTER JOIN users u2 ON u2.id = t.sender_id  FULL OUTER JOIN transaction_type ON transaction_type.id = t.type_id WHERE 
   ${searchBy != null ? 
     (`${searchBy==='amount' ? 't.amount::text' : `${searchBy==='recipient'?'u1.username' : `${searchBy==='sender' ? 'u2.username' : ''}`}`} LIKE '%${keyword}%' AND`) : ''} 
 
-    (t.recipient_id = $1 OR t.sender_id = $1) ORDER BY ${sortBy == null ? 't.time_transaction DESC' : `${sortBy} ${sortType}`} LIMIT $2 OFFSET $3`;
-  const val = [currentUserId, limit, offset];
+    (t.recipient_id = $1 OR t.sender_id = $2) ORDER BY ${sortBy == null ? 't.time_transaction DESC' : `${sortBy} ${sortType}, id ${sortType}`} LIMIT $3 OFFSET $4`;
+  const val = [currentUserId, currentUserId, limit, offset];
   db.query(q, val, (err, result)=>{
     // console.log(err)
     cb(err, result);
@@ -172,7 +173,8 @@ exports.historyTransaction = (keyword,searchBy, sortBy, sortType, limit, offset,
 };
 
 exports.countHistoryTransaction = (keyword, searchBy, currentUserId, cb) => {
-  const q = `SELECT t.id, t.time_transaction, t.notes,transaction_type.type_name, u1.username recipient, u2.username sender, t.amount FROM "transaction" t JOIN users u1 ON u1.id = t.recipient_id JOIN users u2 ON u2.id = t.sender_id JOIN transaction_type ON transaction_type.id = t.type_id WHERE 
+  // const q = 'SELECT * FROM transaction WHERE recipient_id=$1 OR sender_id=$2';
+  const q = `SELECT t.id, t.time_transaction, t.notes,transaction_type.type_name, u1.username recipient, u2.username sender, t.amount FROM "transaction" t  FULL OUTER JOIN users u1 ON u1.id = t.recipient_id  FULL OUTER JOIN users u2 ON u2.id = t.sender_id  FULL OUTER JOIN transaction_type ON transaction_type.id = t.type_id WHERE 
   ${searchBy != null ? 
     (`${searchBy==='amount' ? 't.amount::text' : `${searchBy==='recipient'?'u1.username' : `${searchBy==='sender' ? 'u2.username' : ''}`}`} LIKE '%${keyword}%' AND`) : ''} 
 

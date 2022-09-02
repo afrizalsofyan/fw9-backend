@@ -23,10 +23,11 @@ exports.updateProfile = (req, res) => {
       picture = req.file.path;
     }
     profileModel.updateProfile(idProfile, req.body, picture, (err, result) =>{
-      if(result.length < 1){
+      if(err){
         return response(res, 'Update failed', null, null, 400);
+      } else {
+        return response(res, 'Update profile is successfully', result[0]);
       }
-      return response(res, 'Update profile is successfully', result[0]);
     });
   });
 };
