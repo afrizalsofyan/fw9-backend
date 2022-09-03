@@ -71,7 +71,8 @@ exports.changePin = (req, res) => {
 exports.allUser = (req, res) => {
   const {search='', limit=parseInt(LIMIT_DATA), page=1, sortBy='id', sortType=0} = req.query;
   const offset = (page-1) * limit;
-  userModel.getAllUserWithName(search, sortBy, parseInt(sortType), limit, offset, (err, result)=>{
+  const idUser = req.authUser.id;
+  userModel.getAllUserWithName(search, sortBy, parseInt(sortType), limit, offset, idUser, (err, result)=>{
     if(err) {
       return errorResponse('Data cant selected', res);
     } else {
@@ -80,7 +81,7 @@ exports.allUser = (req, res) => {
       } else {
         const pageInfo = {};
 
-        userModel.countAllUsers(search, (err, data)=>{
+        userModel.countAllUsers(search, sortBy, idUser, (err, data)=>{
           pageInfo.infoData = data;
           pageInfo.totalPage = Math.ceil(data/limit);
           pageInfo.currentPage = parseInt(page);

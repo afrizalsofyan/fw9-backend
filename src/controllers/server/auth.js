@@ -3,6 +3,7 @@ const response = require('../../helpers/standartResponse');
 const userModel = require('../../models/users');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const notificationModel = require('../../models/notification');
 
 exports.register = (req, res) => {
   req.body.pin = null;
@@ -44,6 +45,11 @@ exports.login = (req, res) => {
       .then((checkPass) => {
         if(checkPass){
           const token = jwt.sign({id: user.id, email: user.email, username: user.username}, process.env.APP_SECRET || 'secretKey', {expiresIn: '1d'});
+          notificationModel.updateFCMTokenUserLogin(user.id, (err, result) => {
+            if(err){
+              return errorResponse(err, response);
+            }
+          });
           return response(res, 'Login success', {token});
         } else {
           return response(res, 'Login Failed, Email or Password is incorrect.', null, null, 401);
@@ -85,6 +91,12 @@ exports.forgetPassword = (req, res) => {
   }
 };
 
-// exports.confirmEmail = (req, res) => {
-//   console.log('this for confirm email');
-// };
+exports.logout = (req, res) => {
+  notificationModel.updateFCMTokenUserLogin(null, (err, result) => {
+    if(err){
+      return errorResponse(err, res);
+    } else {
+      return response(res, 'Success logout');
+    }
+  });
+};

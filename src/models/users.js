@@ -16,8 +16,8 @@ exports.getAllUsers = (keyword, sortBy, sortType, limit, offset= 0, cb) => {
   });
 };
 
-exports.countAllUsers = (keyword, cb) =>{
-  db.query(`SELECT * FROM users WHERE email LIKE '%${keyword}%'`, (err, result)=>{
+exports.countAllUsers = (keyword,sortBy, userId, cb) =>{
+  db.query(`SELECT * FROM users WHERE id!=${userId} AND (username!='topup' OR id!=110) AND ${sortBy} LIKE '%${keyword}%'`, (err, result)=>{
     cb(err, result.rowCount);
   });
 };
@@ -139,23 +139,23 @@ exports.getUserByEmail = (email, cb) => {
 };
 
 exports.getUserWithProfile = (id, cb) => {
-  const q = 'SELECT users.email, users.username, users.pin_number, profile.id, profile.first_name, profile.last_name, profile.phone_number, profile.photo_url, profile.balance FROM users JOIN profile ON users.id = profile.user_id WHERE users.id = $1';
+  const q = 'SELECT users.email, users.username, users.pin_number, profile.id, profile.first_name, profile.last_name, profile.phone_number, profile.photo_url, profile.balance FROM users FULL OUTER JOIN profile ON users.id = profile.user_id WHERE users.id = $1';
   const val = [id];
   db.query(q, val, (err, result)=>{
     cb(err, result);
   });
 };
 
-exports.getAllUserWithName = (keyword, sortBy, sortType, limit, offset= 0, cb) => {
+exports.getAllUserWithName = (keyword, sortBy, sortType, limit, offset= 0, userId, cb) => {
   let type = '';
   if(sortType === 0) {
     type = 'ASC';
   } else {
     type = 'DESC';
   }
-  const q = `SELECT users.id, users.username, profile.first_name, profile.last_name, profile.phone_number, profile.photo_url FROM users JOIN profile on profile.user_id = users.id WHERE is_deleted=false AND (username LIKE '%${keyword}%' 
-  OR email LIKE '%${keyword}%') ORDER BY ${sortBy} ${type} LIMIT $1 OFFSET $2`;
-  const val = [limit, offset];
+  const q = `SELECT users.id, users.username, profile.first_name, profile.last_name, profile.phone_number, profile.photo_url FROM users FULL OUTER JOIN profile on profile.user_id = users.id WHERE is_deleted=false AND users.id != $1 AND (users.username!='topup' OR users.id!=110) AND (username LIKE '%${keyword}%' 
+  OR email LIKE '%${keyword}%') ORDER BY ${sortBy} ${type} LIMIT $2 OFFSET $3`;
+  const val = [userId, limit, offset];
   db.query(q, val, (err, result)=>{
     cb(err, result);
   });

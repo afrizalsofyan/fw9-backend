@@ -155,3 +155,17 @@ exports.getAllTransactions = (req, res) => {
     }
   });
 };
+
+exports.getTransaction = (req, res) => {
+  transactionModel.getTransaction(parseInt(req.params.id, 10), (err, result) => {
+    if(err){
+      return errorResponse(err, res);
+    } else {
+      if (result.rows.length < 1) {
+        return response(res, 'Data not found. Something wrong.', null, null, 400);
+      } else {
+        return response(res, 'Success get detail', result.rows);
+      }
+    }
+  });
+};
