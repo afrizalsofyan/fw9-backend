@@ -53,11 +53,17 @@ exports.isReadNotification = (req, res) => {
 
 exports.createFCMToken = (req, res) => {
   const token = req.body.token;
-  notificationModel.createFCMToken(token, (err, result)=>{
-    if(err){
-      return errResponse(err, res);
+  notificationModel.checkToken(token, (err, result)=>{
+    if(result.rows.length < 1){
+      notificationModel.createFCMToken(token, (err, result)=>{
+        if(err){
+          return errResponse(err, res);
+        } else {
+          return response(res, 'Success created token FCM');
+        }
+      });
     } else {
-      return response(res, 'Success created token FCM');
+      return response(res, 'Error. Token has been created', null, null, 400);
     }
   });
 };
@@ -70,5 +76,28 @@ exports.updateFCMTokenUserLogin = (req, res) => {
     } else {
       return response(res, 'Success set user on token FCM', result.rows[0]);
     }
+  });
+};
+
+exports.getFCMToken = (req, res) => {
+  const idUser = req.authUser.id;
+  notificationModel.getFCMToken(idUser, (err, result)=>{
+    console.log(err)
+    if(err) {
+      return errResponse(err, res);
+    } else {
+      if(!result.rows){
+        return response(res, 'No FCM token for this user', null, null, 400);
+      } else {
+        return response(res, 'success get fcm token', result.rows[0]);
+      }
+    }
+  });
+};
+
+exports.checkFCMToken = (req, res) => {
+  const token = req.params.token;
+  notificationModel.checkToken(token, (err, result) => {
+    return response(res, 'There is fcm token', result.rows[0]);
   });
 };

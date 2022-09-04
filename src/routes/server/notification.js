@@ -7,5 +7,7 @@ notification.get('/reading', authMiddelware, notificationcontroller.getAllNotifi
 notification.patch('/:id', authMiddelware, notificationcontroller.isReadNotification);
 notification.post('/fcm', notificationcontroller.createFCMToken);
 notification.patch('/fcm', authMiddelware, notificationcontroller.updateFCMTokenUserLogin);
+notification.get('/fcm', authMiddelware, notificationcontroller.getFCMToken);
+notification.get('/fcm/:token', authMiddelware, notificationcontroller.checkFCMToken);
 
 module.exports = notification;

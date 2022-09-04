@@ -3,6 +3,8 @@ const response = require('../../helpers/standartResponse');
 const profileModel = require('../../models/profiles');
 const errorResponse = require('../../helpers/errorResponse');
 const userModel = require('../../models/users');
+const firebaseAdmin = require('../../helpers/firebaseConfig');
+const notificationModel = require('../../models/notification');
 
 exports.transfer = (req, res) => {
   const currentUser = req.authUser;
@@ -34,13 +36,42 @@ exports.transfer = (req, res) => {
           } else if (rslt[0].balance < req.body.amount ) {
             return response(res, 'Balance is low then amount, change amount or top up first!!!', null, null, 400);
           } else {
-            transactionModel.createTransaction(dateTime, currentUser.id, req.body, (err, result)=>{
+            notificationModel.getFCMToken(currentUser.id, (err, resultToken) => {
               if(err){
-                return errorResponse(err, res);
+                console.log(err);
               } else {
-                return response(res, 'Transaction success.', result);
+                transactionModel.createTransaction(dateTime, currentUser.id, req.body, (err, result)=>{
+                  if(err){
+                    return errorResponse(err, res);
+                  } else {
+                    // fcmTokenData.map(e=>{
+                    //   const message = {
+                    //     notification: {
+                    //       title: 'Transfer Success',
+                    //       body: `you just transferred to ${resultProfile.rows[0].username}`
+                    //     }
+                    //   };
+                    //   firebaseAdmin.messaging().sendToDevice(e.token, message , {
+                    //     priority: 'high',
+                    //     timeToLive: 60 * 60 * 24
+                    //   });
+                    // });
+                    const Tokens = resultToken.rows[0].token;
+                    const message = {
+                      notification: {
+                        title: 'Transfer Success',
+                        body: 'You have 1 transaction. Check it at history'
+                      }
+                    };
+                    firebaseAdmin.messaging().sendToDevice(Tokens, message, {
+                      priority: 'high',
+                    }).then(response => console.log(response)).catch(error => console.log(error));
+                    return response(res, 'Transaction success.', result);
+                  }
+                });
               }
             });
+            
           }
         });
       }
@@ -103,18 +134,34 @@ exports.topUpBalance = (req, res) => {
         if(limitBalance > maxBalance){
           return response(res, 'Your balance is maximum');
         } else {
-          transactionModel.topUpBalance(dateTime, user.id, req.body, (err, resultTrans)=>{
+          notificationModel.getFCMToken(user.id, (err, resultToken) => {
             if(err){
-              return errorResponse(err, res);
+              console.log(err);
             } else {
-              if(resultTrans[0].length < 1) {
-                return response(res, 'Topup failed.', null, null, 400);
-              } else {
-                return response(res, 'Topup success', resultTrans[0]);
-              }
+              transactionModel.topUpBalance(dateTime, user.id, req.body, (err, resultTrans)=>{
+                if(err){
+                  return errorResponse(err, res);
+                } else {
+                  if(resultTrans[0].length < 1) {
+                    return response(res, 'Topup failed.', null, null, 400);
+                  } else {
+                    const Tokens = resultToken.rows[0].token;
+                    const message = {
+                      notification: {
+                        title: 'Topup Success',
+                        body: 'You have 1 transaction. Check it at history'
+                      }
+                    };
+                    firebaseAdmin.messaging().sendToDevice(Tokens, message, {
+                      priority: 'high',
+                    }).then(response => console.log(response)).catch(error => console.log(error));
+                    return response(res, 'Topup success', resultTrans[0]);
+                  }
+                }
+              });
             }
-            
           });
+          
         }
       }
     });
@@ -126,7 +173,6 @@ exports.getAllTransactions = (req, res) => {
   const {search='',searchBy, sortBy, sortType, limit=parseInt(process.env.LIMIT_DATA), page=1} = req.query;
   const type = parseInt(sortType);
   const offset = (page-1) * limit;
-  console.log(offset);
   let typeSort='';
   const pageInfo = {};
   if(type == 0){
@@ -139,7 +185,7 @@ exports.getAllTransactions = (req, res) => {
   }
   transactionModel.historyTransaction(search, searchBy, sortBy, typeSort, limit, offset, currentUser.id,  (err, result)=>{
     if(err){
-      console.log(err);
+      return errorResponse(err, res);
     } else {
       transactionModel.countHistoryTransaction(search, searchBy, currentUser.id, (err, infoData)=>{
         pageInfo.totalDatas = infoData;

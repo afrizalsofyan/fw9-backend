@@ -40,9 +40,25 @@ exports.createFCMToken = (token, cb) => {
   });
 };
 
-exports.updateFCMTokenUserLogin = (userId, cb) => {
-  const q = 'UPDATE fcm_token SET user_id=$1 RETURNING *';
+exports.updateFCMTokenUserLogin = (userId, token, cb) => {
+  const q = 'UPDATE fcm_token SET user_id=$1 WHERE token=$2 RETURNING *';
+  const val = [userId, token];
+  db.query(q, val, (err, result) => {
+    cb(err, result);
+  });
+};
+
+exports.getFCMToken = (userId, cb) => {
+  const q = 'SELECT * FROM fcm_token WHERE user_id=$1';
   const val = [userId];
+  db.query(q, val, (err, result) => {
+    cb(err, result);
+  });
+};
+
+exports.checkToken = (token, cb) => {
+  const q = 'SELECT * FROM fcm_token WHERE token=$1';
+  const val = [token];
   db.query(q, val, (err, result) => {
     cb(err, result);
   });

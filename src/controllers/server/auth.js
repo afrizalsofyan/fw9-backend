@@ -45,7 +45,9 @@ exports.login = (req, res) => {
       .then((checkPass) => {
         if(checkPass){
           const token = jwt.sign({id: user.id, email: user.email, username: user.username}, process.env.APP_SECRET || 'secretKey', {expiresIn: '1d'});
-          notificationModel.updateFCMTokenUserLogin(user.id, (err, result) => {
+          const fcmToken = req.body.fcmToken;
+          notificationModel.updateFCMTokenUserLogin(user.id, fcmToken, (err, result) => {
+            // console.log(err)
             if(err){
               return errorResponse(err, response);
             }
@@ -92,7 +94,8 @@ exports.forgetPassword = (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  notificationModel.updateFCMTokenUserLogin(null, (err, result) => {
+  const fcmToken = req.body.fcmToken;
+  notificationModel.updateFCMTokenUserLogin(null, fcmToken, (err, result) => {
     if(err){
       return errorResponse(err, res);
     } else {
