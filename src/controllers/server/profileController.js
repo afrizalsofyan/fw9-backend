@@ -1,7 +1,7 @@
 const errorResponse = require('../../helpers/errorResponse');
 const response = require('../../helpers/standartResponse');
 const profileModel = require('../../models/profiles');
-// const cloudinary = require('cloudinary').v2;
+const cloudinary = require('cloudinary').v2;
 
 exports.getProfile = (req, res) => {
   const data = req.authUser;
@@ -18,60 +18,90 @@ exports.updateProfile = (req, res) => {
   const idUser = user.id;
   profileModel.getProfileByUserId(idUser, (err, result)=>{
     const idProfile = result[0].id;
-    let picture = null;
-    if(req.file) {
-      picture = req.file.path;
+    if(result[0].photo_url != null){
+      const photo = (result[0].photo_url.split('/')[result[0].photo_url.split('/').length-1])
+      const finalPhoto = photo.split('.')[0];
+      cloudinary.uploader.destroy(`ourpocket/users/${finalPhoto}`, (err, result) => {
+        if(err){
+          console.log(err);
+        } else {
+          let picture = null;
+          if(req.file) {
+            picture = req.file.path;
+          }
+          profileModel.updateProfile(idProfile, req.body, picture, (err, result) =>{
+            if(err){
+              return response(res, 'Update failed', null, null, 400);
+            } else {
+              return response(res, 'Update profile is successfully', result[0]);
+            }
+          });
+        }
+      });
+    } else {
+      let picture = null;
+      if(req.file) {
+        picture = req.file.path;
+      }
+      profileModel.updateProfile(idProfile, req.body, picture, (err, result) =>{
+        if(err){
+          return response(res, 'Update failed', null, null, 400);
+        } else {
+          return response(res, 'Update profile is successfully', result[0]);
+        }
+      });
     }
-    profileModel.updateProfile(idProfile, req.body, picture, (err, result) =>{
+  });
+};
+
+exports.deletedPhoto = (req, res) => {
+  const user = req.authUser;
+  const idUser = user.id;
+  profileModel.getProfileByUserId(idUser, (err, result)=>{
+    //delete photo
+    const photo = (result[0].photo_url.split('/')[result[0].photo_url.split('/').length-1])
+    const finalPhoto = photo.split('.')[0];
+    cloudinary.uploader.destroy(`ourpocket/users/${finalPhoto}`, (err, result) => {
       if(err){
-        return response(res, 'Update failed', null, null, 400);
+        console.log(err);
       } else {
-        return response(res, 'Update profile is successfully', result[0]);
+        profileModel.updatePhotoDelete(idUser, (err, result) => {
+          console.log(err)
+          if(err){
+            return response(res, 'Update failed', null, null, 400);
+          } else {
+            // return response(res, 'Update profile is successfully', result[0]);
+            return response(res, 'Your photo is deleted');
+          }
+        });
       }
     });
   });
 };
 
-//delete photo
-// const photo = (result[0].photo_url.split('/')[result[0].photo_url.split('/').length-1])
-//     const finalPhoto = photo.split('.')[0];
-//     cloudinary.uploader.destroy(`ourpocket/users/${finalPhoto}`, (err, result) => console.log(result));
 
 exports.addPhoneNumber = (req, res) => {
   const data = req.authUser;
-  const newPhone = req.body.phoneNumber;
   profileModel.getProfileByUserId(data.id, (err, result)=>{
-    const arrPhone = result[0].phone_number == null ? [newPhone] : [result[0].phone_number, newPhone];
-    const phoneStr =  result[0].phone_number == null ? arrPhone : arrPhone[0].join('').split(',');
-    const profileData = result[0];
-    if(phoneStr.length < 2){
-      profileModel.updateProfile(profileData.id, {phoneNumber: arrPhone}, null, (err, resultUpdate)=>{
-        return response(res, 'Create phone successfully.', resultUpdate[0]);
-      });
-    } else {
-      return response(res, 'Error!!! max save is 2 phone number.', null, null, 400);
-    }
+    profileModel.updateProfile(result[0].id, req.body, null, (err, resultUpdate)=>{
+      if(err){
+        return response(res, 'Failed to create phone', null, null, 400);
+      } else {
+        return response(res, 'Create phone success', resultUpdate[0], null, 200);
+      }
+    });
   });
 };
 
 exports.updatePhoneNumber = (req, res) => {
   const data = req.authUser;
-  const newPhone = req.body.phoneNumber;
   profileModel.getProfileByUserId(data.id, (err, result)=>{
-    const arrPhone = result[0].phone_number;
-    const phoneArr = arrPhone[0].split(',');
-    let phoneNumber = [];
-    for(let x in phoneArr){
-      if(x==req.body.indexPhone){ 
-        phoneNumber.push(newPhone);
+    profileModel.updateProfile(result[0].id, req.body, null, (err, resultUpdate)=>{
+      if(err){
+        return response(res, 'Failed to create phone', null, null, 400);
       } else {
-        phoneNumber.push(phoneArr[x]);
+        return response(res, 'Create phone success', resultUpdate[0], null, 200);
       }
-    }
-    const phoneParam = phoneNumber.join(',');
-    const profileData = result[0];
-    profileModel.updateProfile(profileData.id, {phoneNumber: phoneParam}, null, (err, resultUpdate)=>{
-      return response(res, 'Update phone number successfully.', resultUpdate[0]);
     });
   });
 };

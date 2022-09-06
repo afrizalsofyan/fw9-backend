@@ -10,5 +10,6 @@ profileRoute.get('/', authMiddleware, profileController.getProfile);
 profileRoute.patch('/', authMiddleware, uploudMiddleware, profileController.updateProfile);
 profileRoute.post('/phone', authMiddleware, validatorRules.validatorPhone, validation, profileController.addPhoneNumber);
 profileRoute.patch('/phone', authMiddleware, validatorRules.validatorPhone, validation, profileController.updatePhoneNumber);
+profileRoute.delete('/photo', authMiddleware, profileController.deletedPhoto);
 
 module.exports = profileRoute;

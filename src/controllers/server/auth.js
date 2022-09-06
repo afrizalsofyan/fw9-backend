@@ -37,8 +37,8 @@ exports.createPin = (req, res) => {
 exports.login = (req, res) => {
   const {email, password} = req.body;
   userModel.getUserByEmail(email, (err, result) => {
-    if(result.length < 1){
-      return response(res, 'Email not found');
+    if(result.rows.length < 1){
+      return response(res, 'Login Failed, Email or Password is incorrect.', null, null, 400);
     }
     const user = result.rows[0];
     bcrypt.compare(password, user.password)
@@ -46,15 +46,15 @@ exports.login = (req, res) => {
         if(checkPass){
           const token = jwt.sign({id: user.id, email: user.email, username: user.username}, process.env.APP_SECRET || 'secretKey', {expiresIn: '1d'});
           const fcmToken = req.body.fcmToken;
-          notificationModel.updateFCMTokenUserLogin(user.id, fcmToken, (err, result) => {
-            // console.log(err)
-            if(err){
-              return errorResponse(err, response);
+          notificationModel.updateFCMTokenUserLogin(user.id, fcmToken, (errToken, resultToken) => {
+            if(resultToken.rows.length < 1){
+              return response(res, 'FCM Token not found', null, null, 400);
+            } else {
+              return response(res, 'Login success', {token});
             }
           });
-          return response(res, 'Login success', {token});
         } else {
-          return response(res, 'Login Failed, Email or Password is incorrect.', null, null, 401);
+          return response(res, 'Login Failed, Email or Password is incorrect.', null, null, 400);
         }
       }).catch((e)=>{
         return response(res, `Error: ${e.message}`, null, null, 404);

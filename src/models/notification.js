@@ -41,6 +41,7 @@ exports.createFCMToken = (token, cb) => {
 };
 
 exports.updateFCMTokenUserLogin = (userId, token, cb) => {
+  console.log(token)
   const q = 'UPDATE fcm_token SET user_id=$1 WHERE token=$2 RETURNING *';
   const val = [userId, token];
   db.query(q, val, (err, result) => {

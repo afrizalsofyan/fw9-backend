@@ -63,15 +63,28 @@ exports.updateProfile = (id, data, picture, cb) => {
   for(let x in valObj){
     if(valObj[x]!=null){
       arg.push(argObj[x]);
-      if(argObj[x]=='phone_number'){
-        val.push(`{"${valObj[x]}"}`);
-      } else {
-        val.push(valObj[x]);
-      }
+      val.push(valObj[x]);
+      // if(argObj[x]=='phone_number'){
+      //   val.push(`{"${valObj[x]}"}`);
+      // } else {
+      //   val.push(valObj[x]);
+      // }
     }
   }
   const finalArg = arg.map((el, idx)=> `${el}=$${idx+2}`);
+  console.log(finalArg)
   const q = `UPDATE profile SET ${finalArg} WHERE id=$1 RETURNING *`;
+  db.query(q, val, (err, result)=>{
+    if(err){
+      cb(err);
+    } else {
+      cb(err, result.rows);
+    }
+  });
+};
+exports.updatePhotoDelete = (id, cb) => {
+  const q = 'UPDATE profile SET photo_url=null WHERE user_id=$1';
+  const val = [id];
   db.query(q, val, (err, result)=>{
     if(err){
       cb(err);
