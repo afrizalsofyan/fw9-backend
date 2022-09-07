@@ -80,11 +80,9 @@ exports.transfer = (req, res) => {
                           firebaseAdmin.messaging().sendToDevice(Tokens, message, {
                             priority: 'high',
                           }).then(response => console.log(response)).catch(error => console.log(error));
-                          return response(res, 'Transaction success.', result);
-                        } else {
-                          return response(res, 'Transaction success.', result);
-                        }
+                        } 
                       });
+                      return response(res, 'Transaction success.', result);
                     });
                   }
                 });
