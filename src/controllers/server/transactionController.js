@@ -57,26 +57,27 @@ exports.transfer = (req, res) => {
                     //   });
                     // });
                     profileModel.getProfileByUserId(result[0].sender_id, (errSender, resultSender) => {
-                      if(result[0].sender_id === currentUser.id) {
+                      if(result[0].recipient_id === currentUser.id) {
                         const Tokens = resultToken.rows[0].token;
                         const message = {
                           notification: {
                             title: 'Transfer Success',
-                            body: `You transfer to ${resultSender.username}`
+                            body: `You get transfer from ${resultSender.username}`
                           }
                         };
                         firebaseAdmin.messaging().sendToDevice(Tokens, message, {
                           priority: 'high',
                         }).then(response => console.log(response)).catch(error => console.log(error));
+                        return response(res, 'Transaction success.', result);
                       }
-                      if(result[0].recipient_id == currentUser.id) {
-                        notificationModel.getFCMToken(result[0].sender_id, (errSenderToken, resultSenderToken) => {
+                      if(result[0].sender_id == currentUser.id) {
+                        notificationModel.getFCMToken(resultSender[0].sender_id, (errSenderToken, resultSenderToken) => {
                           if(resultSenderToken.token != null) {
                             const Tokens = resultSenderToken.rows[0].token;
                             const message = {
                               notification: {
                                 title: 'Transfer Success',
-                                body: `You get transfer from ${resultSender.username}`
+                                body: `You transfer to ${resultSender.username}`
                               }
                             };
                             firebaseAdmin.messaging().sendToDevice(Tokens, message, {
@@ -85,7 +86,6 @@ exports.transfer = (req, res) => {
                           }
                         });
                       }
-                      return response(res, 'Transaction success.', result);
                     });
                   }
                 });
