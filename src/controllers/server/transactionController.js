@@ -72,7 +72,7 @@ exports.transfer = (req, res) => {
                       if(result[0].recipient_id == currentUser.id) {
                         notificationModel.getFCMToken(result[0].sender_id, (errSenderToken, resultSenderToken) => {
                           if(resultSenderToken.token != null) {
-                            const Tokens = resultToken.rows[0].token;
+                            const Tokens = resultSenderToken.rows[0].token;
                             const message = {
                               notification: {
                                 title: 'Transfer Success',
