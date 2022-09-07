@@ -56,7 +56,7 @@ exports.transfer = (req, res) => {
                     //     timeToLive: 60 * 60 * 24
                     //   });
                     // });
-                    profileModel.getProfileByUserId(result[0].recipient_id, (errRecipient, resultRecipient) => {
+                    userModel.getUser(result[0].recipient_id, (errRecipient, resultRecipient) => {
                       const Tokens = resultToken.rows[0].token;
                       const message = {
                         notification: {
@@ -74,7 +74,7 @@ exports.transfer = (req, res) => {
                           const message = {
                             notification: {
                               title: 'Transfer Recivied',
-                              body: `You recieve amount from ${rslt.username}`
+                              body: `You recieve amount from ${resultUser.username}`
                             }
                           };
                           firebaseAdmin.messaging().sendToDevice(Tokens, message, {
