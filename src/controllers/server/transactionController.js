@@ -82,8 +82,8 @@ exports.transfer = (req, res) => {
                           }).then(response => console.log(response)).catch(error => console.log(error));
                         } 
                       });
-                      return response(res, 'Transaction success.', result);
                     });
+                    return response(res, 'Transaction success.', result);
                   }
                 });
               }
