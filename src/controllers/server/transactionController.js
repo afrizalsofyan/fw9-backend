@@ -85,9 +85,9 @@ exports.transfer = (req, res) => {
                           }
                         });
                       }
+                      return response(res, 'Transaction success.', result);
                     });
                   }
-                  return response(res, 'Transaction success.', result);
                 });
               }
             });
