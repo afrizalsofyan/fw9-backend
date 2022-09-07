@@ -259,12 +259,12 @@ exports.historyTransaction = (
     : ''
 } 
 
-    (t.recipient_id = $1 OR t.sender_id = $2) ORDER BY ${
+    (t.recipient_id = $1 OR t.sender_id = $1) ORDER BY ${
   sortBy == null
     ? 't.time_transaction DESC'
     : `${sortBy} ${sortType}, id ${sortType}`
-} LIMIT $3 OFFSET $4`;
-  const val = [currentUserId, currentUserId, limit, offset];
+} LIMIT $2 OFFSET $3`;
+  const val = [currentUserId, limit, offset];
   db.query(q, val, (err, result) => {
     // console.log(err)
     cb(err, result);
