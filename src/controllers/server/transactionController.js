@@ -56,35 +56,32 @@ exports.transfer = (req, res) => {
                     //     timeToLive: 60 * 60 * 24
                     //   });
                     // });
-                    profileModel.getProfileByUserId(result[0].sender_id, (errSender, resultSender) => {
-                      if(result[0].recipient_id === currentUser.id) {
-                        const Tokens = resultToken.rows[0].token;
+                    const Tokens = resultToken.rows[0].token;
+                    const message = {
+                      notification: {
+                        title: 'Transfer Success',
+                        body: 'You have 1 transaction. Check it at history'
+                      }
+                    };
+                    firebaseAdmin.messaging().sendToDevice(Tokens, message, {
+                      priority: 'high',
+                    }).then(response => console.log(response)).catch(error => console.log(error));
+
+                    notificationModel.getFCMToken(result[0].recipient_id, (errRecipient, resultRecipient) => {
+                      if(resultRecipient!=null){
+                        const Tokens = resultRecipient.rows[0].token;
                         const message = {
                           notification: {
                             title: 'Transfer Success',
-                            body: `You get transfer from ${resultSender.username}`
+                            body: 'You have 1 transaction. Check it at history'
                           }
                         };
                         firebaseAdmin.messaging().sendToDevice(Tokens, message, {
                           priority: 'high',
                         }).then(response => console.log(response)).catch(error => console.log(error));
                         return response(res, 'Transaction success.', result);
-                      }
-                      if(result[0].sender_id == currentUser.id) {
-                        notificationModel.getFCMToken(resultSender[0].sender_id, (errSenderToken, resultSenderToken) => {
-                          if(resultSenderToken.token != null) {
-                            const Tokens = resultSenderToken.rows[0].token;
-                            const message = {
-                              notification: {
-                                title: 'Transfer Success',
-                                body: `You transfer to ${resultSender.username}`
-                              }
-                            };
-                            firebaseAdmin.messaging().sendToDevice(Tokens, message, {
-                              priority: 'high',
-                            }).then(response => console.log(response)).catch(error => console.log(error));
-                          }
-                        });
+                      } else {
+                        return response(res, 'Transaction success.', result);
                       }
                     });
                   }
