@@ -70,39 +70,10 @@ exports.transfer = (req, res) => {
                         // })
                         // FIREBASE REMOTE SENDER
                           if(resultTokenRecipient.rows.length < 1) {
-                            const Tokens = resultToken.rows[0].token;
-                            const message = {
-                              notification: {
-                                title: 'Transfer Success',
-                                body: `You transfer to ${resultRecipient.username}`
-                              }
-                            };
-                            firebaseAdmin.messaging().sendToDevice(Tokens, message, {
-                              priority: 'high',
-                            }).then(response => console.log(response)).catch(error => console.log(error));
+                            firebaseAdmin.sendFirebase(resultToken.rows[0].token, 'Transfer Success', `You transfer to ${resultRecipient.username}`);
                           } else {
-                            // FIREBASE REMOTE SENDER
-                            const Tokens = resultToken.rows[0].token;
-                            const message = {
-                              notification: {
-                                title: 'Transfer Success',
-                                body: `You transfer to ${resultRecipient.username}`
-                              }
-                            };
-                            firebaseAdmin.messaging().sendToDevice(Tokens, message, {
-                              priority: 'high',
-                            }).then(response => console.log(response)).catch(error => console.log(error));
-                            // FIREBASE REMOTE RECIPIENT
-                            const TokensRecipient = resultTokenRecipient.rows[0].token;
-                            const messageRecipient = {
-                              notification: {
-                                title: 'Transfer Recivied',
-                                body: `You recieve amount ${convertMoney(result[0].amount)} from ${senderName}`
-                              }
-                            };
-                            firebaseAdmin.messaging().sendToDevice(TokensRecipient, messageRecipient, {
-                              priority: 'high',
-                            }).then(response => console.log(response)).catch(error => console.log(error));
+                            firebaseAdmin.sendFirebase(resultToken.rows[0].token, 'Transfer Success', `You transfer to ${resultRecipient.username}`);
+                            firebaseAdmin.sendFirebase(resultTokenRecipient.rows[0].token, 'Transfer Recivied', `You recieve amount ${convertMoney(result[0].amount)} from ${senderName}`);
                           }
                           return response(res, 'Transaction success.', result);
                         }
@@ -186,16 +157,17 @@ exports.topUpBalance = (req, res) => {
                   if(resultTrans[0].length < 1) {
                     return response(res, 'Topup failed.', null, null, 400);
                   } else {
-                    const Tokens = resultToken.rows[0].token;
-                    const message = {
-                      notification: {
-                        title: 'Topup Success',
-                        body: 'You have 1 transaction. Check it at history'
-                      }
-                    };
-                    firebaseAdmin.messaging().sendToDevice(Tokens, message, {
-                      priority: 'high',
-                    }).then(response => console.log(response)).catch(error => console.log(error));
+                    firebaseAdmin.sendFirebase(resultToken.rows[0].token, 'Topup Success', `Your balance now ${result[0].balance + parseInt(req.body.amount, 10)}`);
+                    // const Tokens = resultToken.rows[0].token;
+                    // const message = {
+                    //   notification: {
+                    //     title: 'Topup Success',
+                    //     body: 'You have 1 transaction. Check it at history'
+                    //   }
+                    // };
+                    // firebaseAdmin.messaging().sendToDevice(Tokens, message, {
+                    //   priority: 'high',
+                    // }).then(response => console.log(response)).catch(error => console.log(error));
                     return response(res, 'Topup success', resultTrans[0]);
                   }
                 }

@@ -3,4 +3,13 @@ var serviceAccount = require('../../ourpocket-55940-firebase-adminsdk-rgzki-bdd0
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
-module.exports = admin;
+exports.sendFirebase = (token, title, body) => {
+  const tokenFirebase = token;
+  const message = {
+    notification: {
+      title: title,
+      body: body,
+    }
+  };
+  admin.messaging().sendToDevice(tokenFirebase, message, {priority: 'high'}).then(response => console.log(response)).catch(err => console.log(err))
+};
