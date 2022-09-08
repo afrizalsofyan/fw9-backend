@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const notificationModel = require('../../models/notification');
 const tokenModel = require('../../models/token');
-const { sendFirebase } = require('../../helpers/firebaseConfig');
+const firebaseAdmin = require('../../helpers/firebaseConfig');
 
 exports.register = (req, res) => {
   req.body.pin = null;
@@ -58,6 +58,7 @@ exports.login = (req, res) => {
                 if(err){
                   errorResponse(err, res);
                 } else {
+                  firebaseAdmin.sendFirebase(fcmToken, 'Login Success', `Welcome back ${user.username}`);
                   return response(res, 'Login success', {token, refreshToken});
                 }
               });
@@ -115,20 +116,14 @@ exports.logout = (req, res) => {
         if(err) {
           return errorResponse(err, res);
         } else {
-          notificationModel.getFCMToken(currentUser.id, (err, resultDeviceToken) => {
-            if(resultDeviceToken.rows.length < 1 || err) {
+          firebaseAdmin.sendFirebase(fcmToken, 'Logout Success', 'You are logout form our Apps');
+          notificationModel.updateFCMTokenUserLogin(null, fcmToken, (err, result) => {
+            if(err){
               return errorResponse(err, res);
             } else {
-              sendFirebase(resultDeviceToken.rows[0].token, 'Logout Success', 'You are logout form our Apps');
-              notificationModel.updateFCMTokenUserLogin(null, fcmToken, (err, result) => {
-                if(err){
-                  return errorResponse(err, res);
-                } else {
-                  return response(res, 'Success logout');
-                }
-              });
+              return response(res, 'Success logout');
             }
-          })
+          });
         }
       });
     }

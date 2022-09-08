@@ -11,5 +11,5 @@ exports.sendFirebase = (token, title, body) => {
       body: body,
     }
   };
-  admin.messaging().sendToDevice(tokenFirebase, message, {priority: 'high'}).then(response => console.log(response)).catch(err => console.log(err))
+  admin.messaging().sendToDevice(tokenFirebase, message, {priority: 'high'}).then(response => console.log(response.results[0].error)).catch(err => console.log(err))
 };
