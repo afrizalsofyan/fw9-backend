@@ -4,6 +4,8 @@ const userModel = require('../../models/users');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const notificationModel = require('../../models/notification');
+const tokenModel = require('../../models/token');
+const { sendFirebase } = require('../../helpers/firebaseConfig');
 
 exports.register = (req, res) => {
   req.body.pin = null;
@@ -44,13 +46,21 @@ exports.login = (req, res) => {
     bcrypt.compare(password, user.password)
       .then((checkPass) => {
         if(checkPass){
-          const token = jwt.sign({id: user.id, email: user.email, username: user.username}, process.env.APP_SECRET || 'secretKey', {expiresIn: '1d'});
+          const token = jwt.sign({id: user.id, email: user.email, username: user.username}, process.env.APP_SECRET || 'secretKey', {expiresIn: '20s'});
+          const refreshToken = jwt.sign({id: user.id, email: user.email, username: user.username}, process.env.APP_SECRET || 'resfrehSecretKey');
           const fcmToken = req.body.fcmToken;
           notificationModel.updateFCMTokenUserLogin(user.id, fcmToken, (errToken, resultToken) => {
             if(resultToken.rows.length < 1){
               return response(res, 'FCM Token not found', null, null, 400);
             } else {
-              return response(res, 'Login success', {token});
+              const data = {user_id: user.id, token: token, refresh_token: refreshToken};
+              tokenModel.createAuthTokenUser(data, (err, resultAuth) => {
+                if(err){
+                  errorResponse(err, res);
+                } else {
+                  return response(res, 'Login success', {token, refreshToken});
+                }
+              });
             }
           });
         } else {
@@ -95,11 +105,32 @@ exports.forgetPassword = (req, res) => {
 
 exports.logout = (req, res) => {
   const fcmToken = req.body.fcmToken;
-  notificationModel.updateFCMTokenUserLogin(null, fcmToken, (err, result) => {
-    if(err){
-      return errorResponse(err, res);
+  const currentUser = req.authUser;
+  // console.log(currentUser);
+  tokenModel.getTokenUser(currentUser.id, (err, result) => {
+    if(result.rows.length < 1){
+      return response(res, 'User not login', null, null, 400);
     } else {
-      return response(res, 'Success logout');
+      tokenModel.updateTokenUser(result.rows[0].id, (err, resultUpdate) => {
+        if(err) {
+          return errorResponse(err, res);
+        } else {
+          notificationModel.getFCMToken(currentUser.id, (err, resultDeviceToken) => {
+            if(resultDeviceToken.rows.length < 1 || err) {
+              return errorResponse(err, res);
+            } else {
+              sendFirebase(resultDeviceToken.rows[0].token, 'Logout Success', 'You are logout form our Apps');
+              notificationModel.updateFCMTokenUserLogin(null, fcmToken, (err, result) => {
+                if(err){
+                  return errorResponse(err, res);
+                } else {
+                  return response(res, 'Success logout');
+                }
+              });
+            }
+          })
+        }
+      });
     }
   });
 };
