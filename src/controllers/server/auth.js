@@ -46,7 +46,7 @@ exports.login = (req, res) => {
     bcrypt.compare(password, user.password)
       .then((checkPass) => {
         if(checkPass){
-          const token = jwt.sign({id: user.id, email: user.email, username: user.username}, process.env.APP_SECRET || 'secretKey', {expiresIn: '20s'});
+          const token = jwt.sign({id: user.id, email: user.email, username: user.username}, process.env.APP_SECRET || 'secretKey', {expiresIn: '2h'});
           const refreshToken = jwt.sign({id: user.id, email: user.email, username: user.username}, process.env.APP_SECRET || 'resfrehSecretKey');
           const fcmToken = req.body.fcmToken;
           notificationModel.updateFCMTokenUserLogin(user.id, fcmToken, (errToken, resultToken) => {
