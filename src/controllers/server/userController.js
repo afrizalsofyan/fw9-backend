@@ -29,7 +29,7 @@ exports.changePassword = (req, res) => {
             return response(res, 'Password has been updated.');
           });
         } else {
-          return response(res, 'Password does\'nt match with your current password', null, null, 400);
+          return response(res, 'Password does\'t match with your current password', null, null, 400);
         }
       })
       .catch(e=>response(res, e.message, null, null, 400));
@@ -100,7 +100,7 @@ exports.getUserById = (req, res) => {
     if(result.rows.length < 1){
       return response(res, 'user not found', null, null, 400);
     } else {
-      return response(res, 'Succes get users', result.rows[0]);
+      return response(res, 'Success get users', result.rows[0]);
     }
   });
 };

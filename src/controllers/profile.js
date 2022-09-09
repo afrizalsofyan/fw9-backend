@@ -68,7 +68,7 @@ exports.updateProfile =
       if(result.length < 1){
         return response(res, 'Failed to update, data not found!!', null, null, 400);
       }
-      return response(res, 'Update user data is success!!', result[0]);
+      return response(res, 'Update success!!', result[0]);
     });
   }
 ];

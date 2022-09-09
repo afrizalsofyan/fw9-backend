@@ -58,6 +58,7 @@ exports.login = (req, res) => {
                 if(err){
                   errorResponse(err, res);
                 } else {
+
                   firebaseAdmin.sendFirebase(fcmToken, 'Login Success', `Welcome back ${user.username}`);
                   return response(res, 'Login success', {token, refreshToken});
                 }
@@ -116,7 +117,6 @@ exports.logout = (req, res) => {
         if(err) {
           return errorResponse(err, res);
         } else {
-          firebaseAdmin.sendFirebase(fcmToken, 'Logout Success', 'You are logout form our Apps');
           notificationModel.updateFCMTokenUserLogin(null, fcmToken, (err, result) => {
             if(err){
               return errorResponse(err, res);
