@@ -69,11 +69,13 @@ exports.transfer = (req, res) => {
                         //   });
                         // })
                         // FIREBASE REMOTE SENDER
-                          if(resultTokenRecipient.rows.length < 1) {
+                          if(resultTokenRecipient.rows.length < 1 && resultToken.rows.length >= 1) {
                             firebaseAdmin.sendFirebase(resultToken.rows[0].token, 'Transfer Success', `You transfer to ${resultRecipient[0].username}`);
-                          } else {
+                          } else if(resultTokenRecipient.rows.length >= 1 && resultToken.rows.length >= 1) {
                             firebaseAdmin.sendFirebase(resultToken.rows[0].token, 'Transfer Success', `You transfer to ${resultRecipient[0].username}`);
-                            firebaseAdmin.sendFirebase(resultTokenRecipient.rows[0].token, 'Transfer Recivied', `You recieve amount ${convertMoney(result[0].amount)} from ${senderName}`);
+                            firebaseAdmin.sendFirebase(resultTokenRecipient.rows[0].token, 'Transfer received', `You received amount ${convertMoney(result[0].amount)} from ${senderName}`);
+                          } else if(resultTokenRecipient.rows.length >= 1 && resultToken.rows.length < 1) {
+                            firebaseAdmin.sendFirebase(resultTokenRecipient.rows[0].token, 'Transfer received', `You received amount ${convertMoney(result[0].amount)} from ${senderName}`);
                           }
                           return response(res, 'Transaction success.', result);
                         }
