@@ -8,7 +8,7 @@ exports.getAllUsers = (keyword, sortBy, sortType, limit, offset= 0, cb) => {
     type = 'DESC';
   }
   db.query(`SELECT * FROM users WHERE is_deleted=false AND (username LIKE '%${keyword}%' 
-  OR email LIKE '%${keyword}%') ORDER BY ${sortBy} ${type} LIMIT $1 OFFSET $2`, [limit, offset], (err, res) => {
+  OR phone_number LIKE '%${keyword}%') ORDER BY ${sortBy} ${type} LIMIT $1 OFFSET $2`, [limit, offset], (err, res) => {
     if(err) {
       cb(err);
     }
@@ -154,7 +154,7 @@ exports.getAllUserWithName = (keyword, sortBy, sortType, limit, offset= 0, userI
     type = 'DESC';
   }
   const q = `SELECT users.id, users.username, profile.first_name, profile.last_name, profile.phone_number, profile.photo_url FROM users FULL OUTER JOIN profile on profile.user_id = users.id WHERE is_deleted=false AND users.id != $1 AND (users.username!='topup' OR users.id!=110) AND (username LIKE '%${keyword}%' 
-  OR email LIKE '%${keyword}%') ORDER BY ${sortBy} ${type} LIMIT $2 OFFSET $3`;
+  OR phone_number LIKE '%${keyword}%') ORDER BY ${sortBy} ${type} LIMIT $2 OFFSET $3`;
   const val = [userId, limit, offset];
   db.query(q, val, (err, result)=>{
     cb(err, result);
