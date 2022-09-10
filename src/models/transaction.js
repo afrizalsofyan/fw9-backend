@@ -168,9 +168,18 @@ exports.createTransaction = (time, senderId, data, cb) => {
                   if (err) {
                     cb(err);
                   } else {
-                    db.query('COMMIT', (err) => {
+                    const createNotifQueryRecipient =
+                      'INSERT INTO notification(user_id, transaction_id) VALUES($1, $2)';
+                    const valNotificationRecipient = [data.recipient_id, transaction_id];
+                    db.query(createNotifQueryRecipient, valNotificationRecipient, (err) => {
                       if (err) {
-                        console.log('Error commit transaction', err.stack);
+                        cb(err);
+                      } else {
+                        db.query('COMMIT', (err) => {
+                          if (err) {
+                            console.log('Error commit transaction', err.stack);
+                          }
+                        });
                       }
                     });
                   }
