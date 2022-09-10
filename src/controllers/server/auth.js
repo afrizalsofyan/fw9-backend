@@ -49,22 +49,26 @@ exports.login = (req, res) => {
           const token = jwt.sign({id: user.id, email: user.email, username: user.username}, process.env.APP_SECRET || 'secretKey', {expiresIn: '2h'});
           const refreshToken = jwt.sign({id: user.id, email: user.email, username: user.username}, process.env.APP_SECRET || 'resfrehSecretKey');
           const fcmToken = req.body.fcmToken;
-          notificationModel.updateFCMTokenUserLogin(user.id, fcmToken, (errToken, resultToken) => {
-            if(resultToken.rows.length < 1){
-              return response(res, 'FCM Token not found', null, null, 400);
-            } else {
-              const data = {user_id: user.id, token: token, refresh_token: refreshToken};
-              tokenModel.createAuthTokenUser(data, (err, resultAuth) => {
-                if(err){
-                  errorResponse(err, res);
-                } else {
-
-                  firebaseAdmin.sendFirebase(fcmToken, 'Login Success', `Welcome back ${user.username}`);
-                  return response(res, 'Login success', {token, refreshToken});
-                }
-              });
-            }
-          });
+          if(req.body.fcmToken) {
+            notificationModel.updateFCMTokenUserLogin(user.id, fcmToken, (errToken, resultToken) => {
+              if(resultToken.rows.length < 1){
+                return response(res, 'FCM Token not found', null, null, 400);
+              } else {
+                const data = {user_id: user.id, token: token, refresh_token: refreshToken};
+                tokenModel.createAuthTokenUser(data, (err, resultAuth) => {
+                  if(err){
+                    errorResponse(err, res);
+                  } else {
+  
+                    firebaseAdmin.sendFirebase(fcmToken, 'Login Success', `Welcome back ${user.username}`);
+                    return response(res, 'Login success', {token, refreshToken, user_id: user.id});
+                  }
+                });
+              }
+            });
+          } else {
+            return response(res, 'Login success', {token, refreshToken, user_id: user.id});
+          }
         } else {
           return response(res, 'Login Failed, Email or Password is incorrect.', null, null, 400);
         }
