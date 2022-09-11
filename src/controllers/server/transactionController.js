@@ -159,7 +159,9 @@ exports.topUpBalance = (req, res) => {
                   if(resultTrans[0].length < 1) {
                     return response(res, 'Topup failed.', null, null, 400);
                   } else {
-                    firebaseAdmin.sendFirebase(resultToken.rows[0].token, 'Topup Success', `Your balance now ${convertMoney(result[0].balance + parseInt(req.body.amount, 10), 10)}`);
+                    if(resultToken.rows.length >= 1){
+                      firebaseAdmin.sendFirebase(resultToken.rows[0].token, 'Topup Success', `Your balance now ${convertMoney(result[0].balance + parseInt(req.body.amount, 10), 10)}`);
+                    }
                     // const Tokens = resultToken.rows[0].token;
                     // const message = {
                     //   notification: {
