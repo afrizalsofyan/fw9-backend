@@ -1,6 +1,12 @@
 <h1 align="center">OurPocket Backend</h1>
+
 ## About
 A backend program for OurPocket Aplication.
+
+## Tech
+- [Nodejs](https://nodejs.dev)
+- [Axios](https://github.com/axios/axios)
+
 ## Contents
 
 - [Link](#link)
