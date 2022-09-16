@@ -31,7 +31,7 @@ API_SECRET = 'YOUR API KEY SECRET CLOUDINARY'
 4. Running backend with `npm run dev`
 5. Test Request
 
-*Option used fcm token*
+*FCM Token config* /*required
 1. Open [firebase](https://firebase.google.com), then open console and create project.
 2. Following firebase instruction.
 3. After you finsih set up project firebase, then go to your project, then open project setting.
