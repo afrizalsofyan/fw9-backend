@@ -32,6 +32,15 @@ API_SECRET = 'YOUR API KEY SECRET CLOUDINARY'
 4. Running backend with `npm run dev`
 5. Test Request
 
+*Option used fcm token*
+1. Open [firebase](https://firebase.google.com), then open console and create project.
+2. Following firebase instruction.
+3. After you finsih set up project firebase, then go to your project, then open project setting.
+4. Choose clouse messaging then enable your cloud messaging api.
+5. After that choose service accounts and generate your private key.
+6. Copy and paste to your root project files, like index.js
+7. finally you has been complate to setup firebase admin for messaging notification.
+
 ## EndPoint
 
 ### Module Auth
