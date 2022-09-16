@@ -9,16 +9,9 @@ A backend program for OurPocket Aplication.
 
 ## Contents
 
-- [Link](#link)
-
 - [How It Works](#how-it-works)
 
 - [Endpoint](#endpoint)
-
-## Link
-
-- Link Vercel : https://fw9-backend.vercel.app/
-- Link Cloudinary example : https://res.cloudinary.com/asadev619/image/upload/v1662925672/ourpocket/users/1662925672131.jpg
 
 ## How It Works ?
 
@@ -45,7 +38,10 @@ API_SECRET = 'YOUR API KEY SECRET CLOUDINARY'
 4. Choose clouse messaging then enable your cloud messaging api.
 5. After that choose service accounts and generate your private key.
 6. Copy and paste to your root project files, like index.js
-7. finally you has been complate to setup firebase admin for messaging notification.
+7. Then change import for serviceAccount on ./src/helpers/firebaseNotif.js with private key json after you generate. 
+8. Finally you has been complate to setup firebase admin for messaging notification.
+
+noted: you must change `const serviceAccount = require("path/to/serviceAccountKey.json")`, if you not change the backend program will be crashed and returned errors.
 
 ## EndPoint
 
