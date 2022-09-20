@@ -1,0 +1,902 @@
+{
+	"info": {
+		"_postman_id": "33e6bd60-d3c0-4b1b-b742-cb70424f38f2",
+		"name": "OURPOCKET",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17194979"
+	},
+	"item": [
+		{
+			"name": "AUTH",
+			"item": [
+				{
+					"name": "REGISTER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "rizalbaru122",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "user122@mail.com",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/auth/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "jeliu@mail.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "default"
+								},
+								{
+									"key": "fcmToken",
+									"value": "f8h7avdsSaq1TuoI-0_2mn:APA91bHHRCOe6ILZJCKQ5517z5J8iWbmvyLJwsSc7MEY6fbg48_gM3-8CDR8EGdJttFlHHCInMJugnkT5XIbatv4RXoTJvdmkD4a7-H7vH4SQ3_WFIWCejmEBT73PQm6D3VaqRmQtzc1",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/auth/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE PIN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "userr@mail.com",
+									"type": "default"
+								},
+								{
+									"key": "pin",
+									"value": "123456",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/auth/createPin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"createPin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FORGET PASSWORD",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "jeliu@mail.com",
+									"type": "default"
+								},
+								{
+									"key": "newPassword",
+									"value": "11112222",
+									"type": "default"
+								},
+								{
+									"key": "confirmPassword",
+									"value": "11112222",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/auth/forgetPassword?email=jeliu@mail.com&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTA3LCJlbWFpbCI6ImplbGl1QG1haWwuY29tIiwidXNlcm5hbWUiOiJqZXNzaWNhIGxpdSIsImlhdCI6MTY2MjQ2MDk1OX0.OH0RV_GiqkZ6GRqy44n5SY4uQseND37RTtgV3Qi2Tac",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"forgetPassword"
+							],
+							"query": [
+								{
+									"key": null,
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "jeliu@mail.com"
+								},
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTA3LCJlbWFpbCI6ImplbGl1QG1haWwuY29tIiwidXNlcm5hbWUiOiJqZXNzaWNhIGxpdSIsImlhdCI6MTY2MjQ2MDk1OX0.OH0RV_GiqkZ6GRqy44n5SY4uQseND37RTtgV3Qi2Tac"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET LINK FORGET PASSWORD",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "jeliu@mail.com",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/auth/forgetPasswordLink",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"forgetPasswordLink"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGOUT",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "fcmToken",
+									"value": "e7ZRUADcSSOYxJNqyl8LS_:APA91bGmFZVFWLubJeOQpL1tZ066cxAT5w148waAUfhB6QSTAQ_vnNtrw1jGKQCXBUK31xyf83K6hwUZDhzV6HCxP85cpfLKdUr8-BrONWkNhjGnMDp2c9BnzYCTHnp2Si5Vw_Y5y4j0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/auth/logout",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AUTHENTICATED",
+			"item": [
+				{
+					"name": "PROFILE",
+					"item": [
+						{
+							"name": "GET USER PROFILE",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/user/currentUser",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"currentUser"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE PROFILE",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "content",
+										"value": "mu",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "picture",
+											"type": "file",
+											"src": "/C:/Users/asa/Downloads/kirill-balobanov-Ef3AOkt6hHg-unsplash.jpg"
+										},
+										{
+											"key": "firstName",
+											"value": "Jessica",
+											"type": "default",
+											"disabled": true
+										},
+										{
+											"key": "lastName",
+											"value": "Liu",
+											"type": "default",
+											"disabled": true
+										},
+										{
+											"key": "phoneNumber",
+											"value": "0812765544211",
+											"type": "default",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/profile",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE PHONE NUMBER",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "phoneNumber",
+											"value": "08221111111",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/profile/phone",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"profile",
+										"phone"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE PHOTO",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/profile/photo",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"profile",
+										"photo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CHANGE PASSWORD",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "currentPassword",
+											"value": "11112222",
+											"type": "default"
+										},
+										{
+											"key": "newPassword",
+											"value": "12345678",
+											"type": "default"
+										},
+										{
+											"key": "repeatPassword",
+											"value": "12345678",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/user/changePassword",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"changePassword"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CHANGE PIN",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "newPin",
+											"value": "123456",
+											"type": "default"
+										},
+										{
+											"key": "currentPin",
+											"value": "111111",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/user/changePin",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"changePin"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "USER",
+					"item": [
+						{
+							"name": "GET PIN",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/user/changePin",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"changePin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET ALL USER",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/user/allUser?search=&sortBy=username&sortType=0&limit=10&page=1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"allUser"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": ""
+										},
+										{
+											"key": "sortBy",
+											"value": "username",
+											"description": "username|phone"
+										},
+										{
+											"key": "sortType",
+											"value": "0",
+											"description": "0/1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET USER ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/user/getUser/:id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"getUser",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1000"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "TRANSACTION",
+					"item": [
+						{
+							"name": "TRANSFER",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "time",
+											"value": "2022-08-26T17:32:20",
+											"type": "default",
+											"disabled": true
+										},
+										{
+											"key": "notes",
+											"value": "beli celana jeans baru",
+											"type": "default"
+										},
+										{
+											"key": "amount",
+											"value": "54444",
+											"type": "default"
+										},
+										{
+											"key": "type_id",
+											"value": "14",
+											"type": "default"
+										},
+										{
+											"key": "recipient_id",
+											"value": "108",
+											"type": "default"
+										},
+										{
+											"key": "sender_id",
+											"value": "105",
+											"type": "default",
+											"disabled": true
+										},
+										{
+											"key": "pin",
+											"value": "123456",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/transactions/transfer",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"transactions",
+										"transfer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TOPUP",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "amount",
+											"value": "58000",
+											"type": "default"
+										},
+										{
+											"key": "type_id",
+											"value": "16",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/transactions/topup",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"transactions",
+										"topup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET DETAIL TRANSACTION",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/transactions/:id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"transactions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "209"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET ALL Transaction",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/transactions/getAllTransaction?sortBy=amount&sortType=0&limit=5&page=1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"transactions",
+										"getAllTransaction"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "jessica liu",
+											"description": "jessica liu|",
+											"disabled": true
+										},
+										{
+											"key": "searchBy",
+											"value": "sender",
+											"description": "recipient|",
+											"disabled": true
+										},
+										{
+											"key": "sortBy",
+											"value": "amount",
+											"description": "recipient|seder|amount|time_transaction"
+										},
+										{
+											"key": "sortType",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "5"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "FCM",
+					"item": [
+						{
+							"name": "CREATE FCM",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "token",
+											"value": "testtoken1234356",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/notification/fcm",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"notification",
+										"fcm"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET FCM TOKEN DEVICE ALL",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "token",
+											"value": "testtoken1234",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/notification/fcm",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"notification",
+										"fcm"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET DETAIL FCM TOKEN",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "token",
+											"value": "testtoken1234",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/notification/fcm/:token",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"notification",
+										"fcm",
+										":token"
+									],
+									"variable": [
+										{
+											"key": "token",
+											"value": "testtoken123400"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "NOTIFICATION",
+					"item": [
+						{
+							"name": "GET ALL NOTIFICATION",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/notification",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"notification"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE NOTIFICATION READ",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/notification/:id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"notification",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET ALL NOTIFICATION READING",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/notification/reading",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"notification",
+										"reading"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
