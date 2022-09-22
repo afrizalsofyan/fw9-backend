@@ -1,0 +1,2016 @@
+{
+	"info": {
+		"_postman_id": "976e8ecf-d94e-4d20-869a-19e277b0d66b",
+		"name": "SA WALLET",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17194979"
+	},
+	"item": [
+		{
+			"name": "ADMIN CRUD",
+			"item": [
+				{
+					"name": "USER API",
+					"item": [
+						{
+							"name": "GET USERS",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/admin/users",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"admin",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CREATE NEW USER",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "admin222",
+											"type": "default"
+										},
+										{
+											"key": "email",
+											"value": "admin222@mail.com",
+											"type": "default"
+										},
+										{
+											"key": "password",
+											"value": "1234456",
+											"type": "default"
+										},
+										{
+											"key": "pin",
+											"value": "123456",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/admin/users",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"admin",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET USER",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url2}}/admin/users/:id",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "65"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE USER",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "iniadmin3",
+											"type": "default"
+										},
+										{
+											"key": "email",
+											"value": "admin3@gmail.com",
+											"type": "default"
+										},
+										{
+											"key": "password",
+											"value": "111111123",
+											"type": "default"
+										},
+										{
+											"key": "pin",
+											"value": "111111",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url2}}/users/:id",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "13"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "HARD DELETE USER",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url2}}/users/:id",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SOFT DELETE USER",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url2}}/users/delete/:id",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"users",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "FIND USER",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{url}}/admin/users?search=irasa&page=2",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"admin",
+										"users"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "irasa"
+										},
+										{
+											"key": "limit",
+											"value": "3",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SORT USERS",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/admin/users?search=&sortBy=email&sortType=0&limit=5&page=1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"admin",
+										"users"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": ""
+										},
+										{
+											"key": "sortBy",
+											"value": "email"
+										},
+										{
+											"key": "sortType",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "5"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PROFILE API",
+					"item": [
+						{
+							"name": "CREATE PROFILE",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "picture",
+											"type": "file",
+											"src": "/C:/Users/asa/Downloads/cartoon3.jpg",
+											"disabled": true
+										},
+										{
+											"key": "firstName",
+											"value": "uploud",
+											"type": "default"
+										},
+										{
+											"key": "lastName",
+											"value": "testuploud",
+											"type": "default"
+										},
+										{
+											"key": "phoneNumber",
+											"value": "081212121212",
+											"type": "default"
+										},
+										{
+											"key": "personalInformation",
+											"value": "dasdasdsadsadsadasdas",
+											"type": "default"
+										},
+										{
+											"key": "balance",
+											"value": "220000",
+											"type": "default"
+										},
+										{
+											"key": "user_id",
+											"value": "10",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url2}}/admin/userDetail/test",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"admin",
+										"userDetail",
+										"test"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET ALL PROFILE",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url2}}/admin/userDetail",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"admin",
+										"userDetail"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET PROFILE",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url2}}/admin/userDetail/:id",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"admin",
+										"userDetail",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "78"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE PROFILE",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "firstName",
+											"value": "update first name2",
+											"type": "default"
+										},
+										{
+											"key": "lastName",
+											"value": "update last name2",
+											"type": "default"
+										},
+										{
+											"key": "phoneNumber",
+											"value": "082276857584",
+											"type": "default"
+										},
+										{
+											"key": "personalInformation",
+											"value": "update information",
+											"type": "default"
+										},
+										{
+											"key": "picture",
+											"type": "file",
+											"src": "/C:/Users/asa/Downloads/cartoon2.png",
+											"disabled": true
+										},
+										{
+											"key": "balance",
+											"value": "55666544",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url2}}/admin/userDetail/:id",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"admin",
+										"userDetail",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "32"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE PROFILE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url2}}/userDetail/:id",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"userDetail",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "picture",
+											"type": "file",
+											"src": "/C:/Users/asa/Downloads/cartoon1.webp"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url2}}/profiles/test",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"profiles",
+										"test"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "TRANSACTION API",
+					"item": [
+						{
+							"name": "CREATE TRANSACTION",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "date",
+											"value": "2021-09-20",
+											"type": "default",
+											"disabled": true
+										},
+										{
+											"key": "time",
+											"value": "2022-08-26T17:32:20",
+											"type": "default"
+										},
+										{
+											"key": "notes",
+											"value": "notes5",
+											"type": "default"
+										},
+										{
+											"key": "amount",
+											"value": "90798",
+											"type": "default"
+										},
+										{
+											"key": "type_id",
+											"value": "15",
+											"type": "default"
+										},
+										{
+											"key": "recipient_id",
+											"value": "6",
+											"type": "default"
+										},
+										{
+											"key": "sender_id",
+											"value": "5",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url2}}/transactions",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"transactions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TRANSACTION",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url2}}/transactions/:id",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"transactions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "FIND TRANSACTION",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "date",
+											"value": "2021-09-20",
+											"type": "default",
+											"disabled": true
+										},
+										{
+											"key": "time",
+											"value": "2022-08-26T17:32:20",
+											"type": "default"
+										},
+										{
+											"key": "notes",
+											"value": "notes6",
+											"type": "default"
+										},
+										{
+											"key": "amount",
+											"value": "100000",
+											"type": "default"
+										},
+										{
+											"key": "type_id",
+											"value": "1",
+											"type": "default"
+										},
+										{
+											"key": "recipient_id",
+											"value": "1",
+											"type": "default"
+										},
+										{
+											"key": "sender_id",
+											"value": "2",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url2}}/transactions?searchBy=amount&sortBy=amount&sortType=1&page=2&limit=2",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"transactions"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "searchBy",
+											"value": "amount"
+										},
+										{
+											"key": "sortBy",
+											"value": "amount",
+											"description": "amount. notes"
+										},
+										{
+											"key": "sortType",
+											"value": "1"
+										},
+										{
+											"key": "page",
+											"value": "2"
+										},
+										{
+											"key": "limit",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET ALL TRANSACTION",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url2}}/transactions",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"transactions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SORT TRANSACTION DESC",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url2}}/transactions/sort",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"transactions",
+										"sort"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE TRANSACTION",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "date",
+											"value": "2021-09-25",
+											"type": "default",
+											"disabled": true
+										},
+										{
+											"key": "time",
+											"value": "2021-09-25 10:40:20",
+											"type": "default"
+										},
+										{
+											"key": "notes",
+											"value": "ini update",
+											"type": "default"
+										},
+										{
+											"key": "amount",
+											"value": "100000",
+											"type": "default"
+										},
+										{
+											"key": "type_id",
+											"value": "13",
+											"type": "default"
+										},
+										{
+											"key": "recipient_id",
+											"value": "6",
+											"type": "default"
+										},
+										{
+											"key": "sender_id",
+											"value": "5",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url2}}/transactions/:id",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"transactions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE TRANSACTION",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url2}}/transactions/:id",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"transactions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SOFT DELETE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url2}}/transactions/delete/:id",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"transactions",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "TYPE TRANSACTION API",
+					"item": [
+						{
+							"name": "ADD NEW TYPE",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "subcription",
+											"type": "default"
+										},
+										{
+											"key": "description",
+											"value": "for subcription",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url2}}/type/transactions",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"type",
+										"transactions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TYPES",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url2}}/admin/type/transactions",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"admin",
+										"type",
+										"transactions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TYPE",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url2}}/type/transactions/:id",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"type",
+										"transactions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE TYPE",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "update",
+											"type": "default"
+										},
+										{
+											"key": "description",
+											"value": "update value",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url2}}/type/transactions/:id",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"type",
+										"transactions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "13"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE TYPE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url2}}/type/transactions/:id",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"type",
+										"transactions",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SOFT DELETE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url2}}/type/transactions/delete/:id",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"type",
+										"transactions",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "13"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "CLIENT REQUEST",
+			"item": [
+				{
+					"name": "AUTH",
+					"item": [
+						{
+							"name": "REGISTER",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "rizalbaru122",
+											"type": "default"
+										},
+										{
+											"key": "password",
+											"value": "12345678",
+											"type": "default"
+										},
+										{
+											"key": "email",
+											"value": "user122@mail.com",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/auth/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LOGIN",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "jeliu@mail.com",
+											"type": "default"
+										},
+										{
+											"key": "password",
+											"value": "12345678",
+											"type": "default"
+										},
+										{
+											"key": "fcmToken",
+											"value": "d1qggO9STjumoWBsC12GiS:APA91bEDZJUvRnY1gkZwSgtV3ygPlZqe5Fggpqfe2yvS7mRfGouqvtD4dKymOThqBPConvsWf5K5NsH6-8qsI-uwxRLIfg30v1f7RxojeWgvjXdLDVtMTSu0oP846VV1noK0YEH9mM78",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/auth/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CREATE PIN",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "userr@mail.com",
+											"type": "default"
+										},
+										{
+											"key": "pin",
+											"value": "123456",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/auth/createPin",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"auth",
+										"createPin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "auth test",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url2}}/authenticatedUser",
+									"host": [
+										"{{url2}}"
+									],
+									"path": [
+										"authenticatedUser"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "FORGET PASSWORD",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "jeliu@mail.com",
+											"type": "default"
+										},
+										{
+											"key": "newPassword",
+											"value": "11112222",
+											"type": "default"
+										},
+										{
+											"key": "confirmPassword",
+											"value": "11112222",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/auth/forgetPassword?email=jeliu@mail.com&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTA3LCJlbWFpbCI6ImplbGl1QG1haWwuY29tIiwidXNlcm5hbWUiOiJqZXNzaWNhIGxpdSIsImlhdCI6MTY2MjQ2MDk1OX0.OH0RV_GiqkZ6GRqy44n5SY4uQseND37RTtgV3Qi2Tac",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"auth",
+										"forgetPassword"
+									],
+									"query": [
+										{
+											"key": null,
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "email",
+											"value": "jeliu@mail.com"
+										},
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTA3LCJlbWFpbCI6ImplbGl1QG1haWwuY29tIiwidXNlcm5hbWUiOiJqZXNzaWNhIGxpdSIsImlhdCI6MTY2MjQ2MDk1OX0.OH0RV_GiqkZ6GRqy44n5SY4uQseND37RTtgV3Qi2Tac"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET LINK FORGET PASSWORD",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "jeliu@mail.com",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/auth/forgetPasswordLink",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"auth",
+										"forgetPasswordLink"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LOGOUT",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "X-",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "fcmToken",
+											"value": "feqGP-TSQf61cjbkdrozoz:APA91bG_dGO-ua-mtUkjLjlhLObkCgdnM46VMGBaiUqtOJubx3neqATWWtxDXMKH5opbekplrOLOte9x3wAVjoiBgOau95NWFV7e7odOKIIv_SCj-5Y5coGeKvX34Ykupf87bBL8ufnf",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/auth/logout",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "AUTHENTICATED",
+					"item": [
+						{
+							"name": "PROFILE",
+							"item": [
+								{
+									"name": "GET PROFILE",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/profile",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"profile"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET USER PROFILE",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/user/currentUser",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"user",
+												"currentUser"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UPDATE PROFILE",
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "content",
+												"value": "mu",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "picture",
+													"type": "file",
+													"src": "/C:/Users/asa/Downloads/kirill-balobanov-Ef3AOkt6hHg-unsplash.jpg"
+												},
+												{
+													"key": "firstName",
+													"value": "Jessica",
+													"type": "default",
+													"disabled": true
+												},
+												{
+													"key": "lastName",
+													"value": "Liu",
+													"type": "default",
+													"disabled": true
+												},
+												{
+													"key": "phoneNumber",
+													"value": "0812765544211",
+													"type": "default",
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/profile",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"profile"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ADD PHONE NUMBER",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "phoneNumber",
+													"value": "082233445550",
+													"type": "default"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/profile/phone",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"profile",
+												"phone"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UPDATE PHONE NUMBER",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "phoneNumber",
+													"value": "08221111111",
+													"type": "default"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/profile/phone",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"profile",
+												"phone"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE PHOTO",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/profile/photo",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"profile",
+												"photo"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "USER",
+							"item": [
+								{
+									"name": "CHANGE PASSWORD",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "currentPassword",
+													"value": "11112222",
+													"type": "default"
+												},
+												{
+													"key": "newPassword",
+													"value": "12345678",
+													"type": "default"
+												},
+												{
+													"key": "repeatPassword",
+													"value": "12345678",
+													"type": "default"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/user/changePassword",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"user",
+												"changePassword"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CHANGE PIN",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "newPin",
+													"value": "123456",
+													"type": "default"
+												},
+												{
+													"key": "currentPin",
+													"value": "111111",
+													"type": "default"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/user/changePin",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"user",
+												"changePin"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET PIN",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/user/changePin",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"user",
+												"changePin"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET ALL USER",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/user/allUser?search=&sortBy=username&sortType=0&limit=10&page=1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"user",
+												"allUser"
+											],
+											"query": [
+												{
+													"key": "search",
+													"value": ""
+												},
+												{
+													"key": "sortBy",
+													"value": "username"
+												},
+												{
+													"key": "sortType",
+													"value": "0",
+													"description": "0/1"
+												},
+												{
+													"key": "limit",
+													"value": "10"
+												},
+												{
+													"key": "page",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET USER ID",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/user/getUser/:id",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"user",
+												"getUser",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "1000"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "TRANSACTION",
+							"item": [
+								{
+									"name": "TRANSFER",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "time",
+													"value": "2022-08-26T17:32:20",
+													"type": "default",
+													"disabled": true
+												},
+												{
+													"key": "notes",
+													"value": "beli celana jeans baru",
+													"type": "default"
+												},
+												{
+													"key": "amount",
+													"value": "55000",
+													"type": "default"
+												},
+												{
+													"key": "type_id",
+													"value": "14",
+													"type": "default"
+												},
+												{
+													"key": "recipient_id",
+													"value": "117",
+													"type": "default"
+												},
+												{
+													"key": "sender_id",
+													"value": "105",
+													"type": "default",
+													"disabled": true
+												},
+												{
+													"key": "pin",
+													"value": "123456",
+													"type": "default"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/transactions/transfer",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"transactions",
+												"transfer"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET TRANSACTION",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/transactions/historyTransaction?search",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"transactions",
+												"historyTransaction"
+											],
+											"query": [
+												{
+													"key": "offset",
+													"value": "5",
+													"disabled": true
+												},
+												{
+													"key": "search",
+													"value": null
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "TOPUP",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "amount",
+													"value": "58000",
+													"type": "default"
+												},
+												{
+													"key": "type_id",
+													"value": "16",
+													"type": "default"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/transactions/topup",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"transactions",
+												"topup"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET DETAIL TRANSACTION",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/transactions/:id",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"transactions",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "209"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET ALL Transaction",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/transactions/getAllTransaction?sortBy=amount&sortType=0&limit=5&page=1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"transactions",
+												"getAllTransaction"
+											],
+											"query": [
+												{
+													"key": "search",
+													"value": "jessica liu",
+													"description": "jessica liu|",
+													"disabled": true
+												},
+												{
+													"key": "searchBy",
+													"value": "sender",
+													"description": "recipient|",
+													"disabled": true
+												},
+												{
+													"key": "sortBy",
+													"value": "amount",
+													"description": "recipient|seder|amount|time_transaction"
+												},
+												{
+													"key": "sortType",
+													"value": "0"
+												},
+												{
+													"key": "limit",
+													"value": "5"
+												},
+												{
+													"key": "page",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "FCM",
+							"item": [
+								{
+									"name": "CREATE FCM",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "token",
+													"value": "testtoken1234356",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/notification/fcm",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"notification",
+												"fcm"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "New Request",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "token",
+													"value": "testtoken1234",
+													"type": "text",
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/notification/fcm",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"notification",
+												"fcm"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "New Request Copy",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "token",
+													"value": "testtoken1234",
+													"type": "text",
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/notification/fcm/:token",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"notification",
+												"fcm",
+												":token"
+											],
+											"variable": [
+												{
+													"key": "token",
+													"value": "testtoken123400"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "NOTIFICATION",
+							"item": [
+								{
+									"name": "GET ALL NOTIFICATION",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/notification",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"notification"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "1",
+													"disabled": true
+												},
+												{
+													"key": "page",
+													"value": "1",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UPDATE NOTIFICATION READ",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/notification/:id",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"notification",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "4"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET ALL NOTIFICATION READING",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/notification/reading",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"notification",
+												"reading"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
